@@ -10,6 +10,7 @@ async function getHistoryData() {
             data: document.data()
         };
 
+        // TODO: don't hard-code userId
         if (currentData.data.userId === '45UfRMvU5PK6zNXmcyVP') {
             data.push(currentData);
         }
