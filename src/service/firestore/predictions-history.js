@@ -1,6 +1,7 @@
 const db = require('../../app/firestore.js');
+const ResponseError = require('../../error/response-error.js');
 
-async function getHistoryData() {
+async function getHistoryData(userId) {
     const buffer = await db.collection('predictions').get();
     const data = [];
 
@@ -10,13 +11,13 @@ async function getHistoryData() {
             data: document.data()
         };
 
-        // TODO: don't hard-code userId
-        if (currentData.data.userId === '45UfRMvU5PK6zNXmcyVP') {
+        if (currentData.data.userId === userId) {
             data.push(currentData);
         }
     });
 
-    return data;
+    if (data[0]) return data;
+    else throw new ResponseError(404, 'History not found!');
 }
 
 module.exports = getHistoryData;
