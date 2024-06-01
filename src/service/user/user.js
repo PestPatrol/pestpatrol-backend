@@ -1,4 +1,4 @@
-const db = require('../app/firestore');
+const db = require('../../app/firestore');
 
 // Define the user collection
 const userCollection = db.collection('users');
@@ -10,7 +10,7 @@ const createUser = async (newUserData) => {
     return newUserData;
   } catch (error) {
     console.error('Error creating user:', error);
-    throw new Error('Failed to create user');
+    throw new Error('Failed to create user in Firestore');
   }
 };
 
@@ -25,7 +25,7 @@ const getUserById = async (userId) => {
     }
   } catch (error) {
     console.error('Error getting user:', error);
-    throw new Error('Failed to get user');
+    throw new Error('Failed to get user by id from Firestore');
   }
 };
 
@@ -40,7 +40,7 @@ const getUserByEmail = async (email) => {
     }
   } catch (error) {
     console.error('Error getting user:', error);
-    throw new Error('Failed to get user');
+    throw new Error('Failed to get user by email from Firestore');
   }
 };
 
