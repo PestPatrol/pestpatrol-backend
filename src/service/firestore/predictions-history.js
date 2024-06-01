@@ -1,21 +1,21 @@
 const db = require('../../app/firestore.js');
 
 async function getHistoryData(userId) {
-    const buffer = await db.collection('predictions').get();
-    const data = [];
+  const buffer = await db.collection('predictions').get();
+  const data = [];
 
-    buffer.forEach(document => {
-        const currentData = {
-            id: document.id,
-            data: document.data()
-        };
+  buffer.forEach(document => {
+    const currentData = {
+      id: document.id,
+      data: document.data()
+    };
 
-        if (currentData.data.userId === userId) {
-            data.push(currentData);
-        }
-    });
+    if (currentData.data.userId === userId) {
+      data.push(currentData);
+    }
+  });
 
-    return data;
+  return data;
 }
 
 module.exports = getHistoryData;
