@@ -132,3 +132,6 @@ dist
 
 #firestore credentials
 credentials.json
+
+# IPYNB (model)
+*.ipynb

@@ -1,8 +1,7 @@
 const db = require('../../app/firestore');
-const { getUserById } = require('../user/user');
+const { getUserById } = require('../users/user');
 
 const predictionCollection = db.collection('predictions');
-
 
 async function getPredictionHistoryById(predictionId) {
   try {
@@ -38,7 +37,5 @@ async function getPredictionHistoryByUserId(userId) {
     throw new Error('Failed to get prediction history by user id from Firestore');
   }
 }
-
-
 
 module.exports = getPredictionHistoryByUserId;

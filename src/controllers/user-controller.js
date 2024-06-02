@@ -1,5 +1,5 @@
-const loginService = require('../service/user/login');
-const registerService = require('../service/user/register');
+const loginService = require('../services/users/login');
+const registerService = require('../services/users/register');
 const generateToken = require('../utils/generate-token');
 
 const loginController = async (req, res) => {
