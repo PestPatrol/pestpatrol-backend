@@ -1,4 +1,4 @@
-const User = require('../user/user');
+const User = require('../users/user');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 

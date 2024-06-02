@@ -1,5 +1,5 @@
 const db = require('../../app/firestore');
-const ResponseError = require('../../error/response-error');
+const ResponseError = require('../../errors/response-error');
 
 async function getArticleDetail(articleId) {
   const document = await db.collection('articles').doc(articleId).get();
