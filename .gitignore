@@ -135,3 +135,5 @@ credentials.json
 
 # IPYNB (model)
 *.ipynb
+
+src/images/
