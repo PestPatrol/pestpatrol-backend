@@ -2,10 +2,9 @@ const predict = require('../services/predictions/predict');
 const getPredictionHistoryByUserId = require('../services/predictions/prediction-history');
 const fs = require('fs');
 const tf = require('@tensorflow/tfjs-node');
-const dummyPredict = require('../services/predictions/predict-dummy');
-const uploadImageToGcs = require('../utils/gcs-upload-image');
 const addNewPrediction = require('../utils/firestore-new-prediction');
 const uploadFileToGcs = require('../utils/gcs-upload-image');
+const path = require('path');
 
 async function predictController(req, res) {
   try {
@@ -15,7 +14,8 @@ async function predictController(req, res) {
     const image = fs.readFileSync(imagePath);
 
     // TODO: Import model from GCS (still troubling: 'ValueError: An InputLayer should be passed either a `batchInputShape` or an `inputShape`.')
-    const url = 'https://storage.googleapis.com/pestpatrol-model/models-6/model.json';
+    const modelDir = path.join(__dirname, '../../model/model.json');
+    const url = tf.io.fileSystem(modelDir);
     console.log('Model loading...');
     const model = await tf.loadLayersModel(url);
     console.log('Model loaded!');
@@ -37,14 +37,14 @@ async function predictController(req, res) {
 
     // Use the model to predict
     const prediction = await predict(model, image);
-    // const dummyResult = dummyPredict();
 
     // Upload prediction result to Firestore
     try {
-      await addNewPrediction(prediction, imageUrl);
+      await addNewPrediction(prediction, imageUrl, req.user.userId);
       // await addNewPrediction(dummyResult, leafImageUrl);
     } catch (error) {
-      return res.status(error.statusCode)
+      console.log(error);
+      return res.status(500)
         .json({
           success: false,
           message: 'Failed saving prediction data to database'
