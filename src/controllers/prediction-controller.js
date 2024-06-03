@@ -5,6 +5,7 @@ const tf = require('@tensorflow/tfjs-node');
 const dummyPredict = require('../services/predictions/predict-dummy');
 const uploadImageToGcs = require('../utils/gcs-upload-image');
 const addNewPrediction = require('../utils/firestore-new-prediction');
+const uploadFileToGcs = require('../utils/gcs-upload-image');
 
 async function predictController(req, res) {
   try {
@@ -21,17 +22,18 @@ async function predictController(req, res) {
 
     
     // Upload leaf image to GCS
-    let uploadImageStatus;
+    let imageUrl;
     try {
-      uploadImageStatus = await uploadImageToGcs(req, process.env.PREDICTION_FOLDER);
+      // uploadImageStatus = await uploadImageToGcs(image, process.env.PREDICTION_FOLDER);
+      imageUrl = await uploadFileToGcs(req)
     } catch (error) {
-      return res.status(error.statusCode)
+      console.log(error);
+      return res.status(500)
       .json({
         success: false,
         message: 'Failed uploading image data to database'
       });
     }
-    const leafImageUrl = uploadImageStatus.cloudStoragePublicUrl;
 
     // Use the model to predict
     const prediction = await predict(model, image);
@@ -39,7 +41,7 @@ async function predictController(req, res) {
 
     // Upload prediction result to Firestore
     try {
-      await addNewPrediction(prediction, leafImageUrl);
+      await addNewPrediction(prediction, imageUrl);
       // await addNewPrediction(dummyResult, leafImageUrl);
     } catch (error) {
       return res.status(error.statusCode)
