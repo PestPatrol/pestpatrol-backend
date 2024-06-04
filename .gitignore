@@ -38,10 +38,11 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
-# Dependency & secret directories
+# Dependency & other directories
 node_modules/
 jspm_packages/
 secret/
+src/images/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -130,8 +131,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-#firestore credentials
+# Firestore credentials
 credentials.json
 
-# IPYNB (model)
+# IPYNB (raw model)
 *.ipynb
