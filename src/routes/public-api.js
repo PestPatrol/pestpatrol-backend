@@ -48,15 +48,13 @@ router.post('/submit',
 
 // Register
 router.post('/register',
-  async (req, res) => {
+  (req, res) => {
     registerController(req, res)
   });
 
-// Login
-router.post('/login',
-  async (req, res) => {
-    loginController(req, res)
-  });
+router.post('/login', (req, res) => {
+  loginController(req, res)
+});
 
 // Login with Google
 router.get('/auth/google',
@@ -68,7 +66,7 @@ router.get('/auth/google/callback',
   auth.authenticate('google', {
     session: false
   }),
-  async (req, res, next) => {
+  (req, res, next) => {
     googleOauthController(req, res, next)
   });
 

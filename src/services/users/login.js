@@ -2,7 +2,7 @@ const User = require('../users/user');
 const bcrypt = require('bcrypt');
 const generateToken = require('../../utils/generate-token');
 
-const loginService = async (req) =>{
+async function loginService (req){
   try {
     const user = await User.getUserByEmail(req.body.email);
     if (!user) {

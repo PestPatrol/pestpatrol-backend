@@ -2,7 +2,7 @@ const loginService = require('../services/users/login');
 const registerService = require('../services/users/register');
 const generateToken = require('../utils/generate-token');
 
-const loginController = async (req, res) => {
+async function loginController (req, res) {
   try {
     const token = await loginService(req);
     res.status(200).json({
@@ -20,7 +20,7 @@ const loginController = async (req, res) => {
   }
 }
 
-const registerController = async (req, res) => {
+async function registerController (req, res) {
   try {
     const user = await registerService(req);
     res.status(201).json({
@@ -38,7 +38,7 @@ const registerController = async (req, res) => {
   }
 }
 
-const googleOauthController = async (req, res) => {
+async function googleOauthController (req, res) {
 
   // If user is false or not authenticated using Google OAuth, return error response
   if (!req.user) {
