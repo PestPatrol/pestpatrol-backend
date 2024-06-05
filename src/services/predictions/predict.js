@@ -15,9 +15,9 @@ async function predict(model, image) {
 
     const classes = ['BrownSpot', 'Healthy', 'Hispa', 'LeafBlast'];
     const classResult = tf.argMax(prediction, 1).dataSync()[0];
-    const label = classes[classResult];
+    const disease = classes[classResult];
 
-    return { label, confidenceScore };
+    return { disease, confidenceScore };
 
   } catch (error) {
     console.log(error);
