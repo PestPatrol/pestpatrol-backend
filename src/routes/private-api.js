@@ -12,6 +12,11 @@ const {
   getArticleDetailController
 } = require('../controllers/article-controller');
 
+const {
+  getRemindersController,
+  saveReminderController,
+} = require('../controllers/reminder-controller');
+
 // Protected route
 router.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
   if (!req.user) {
@@ -35,14 +40,14 @@ router.get('/protected', passport.authenticate('jwt', { session: false }), (req,
 // Predict
 router.post('/predict', passport.authenticate('jwt', {
   session: false
-}), async (req, res) => {
+}), (req, res) => {
   predictController(req, res);
 });
 
 // Get predictions history of a certain user
 router.get('/predict/history', passport.authenticate('jwt', {
   session: false
-}), async (req, res) => {
+}), (req, res) => {
   getPredictionHistoryByUserIdController(req, res);
 });
 
@@ -50,36 +55,51 @@ router.get('/predict/history', passport.authenticate('jwt', {
 // (optional query param: by category)
 router.get('/articles', passport.authenticate('jwt', {
   session: false
-}), async (req, res) => {
+}), (req, res) => {
   getArticlesController(req, res);
 });
 
 // Get favorite (liked) articles
 router.get('/articles/liked', passport.authenticate('jwt', {
   session: false
-}), async (req, res) => {
+}), (req, res) => {
   getLikedArticlesController(req, res);
 });
 
 // Like/dislike article from 'P-Blog' page
 router.post('/articles/like', passport.authenticate('jwt', {
   session: false
-}), async (req, res) => {
+}), (req, res) => {
   likeOrDislikeArticleController(req, res);
 });
 
 // Get article detail by articleId
 router.get('/articles/:articleId', passport.authenticate('jwt', {
   session: false
-}), async (req, res) => {
+}), (req, res) => {
   getArticleDetailController(req, res);
 });
 
 // Like/dislike article from 'article details' page
 router.post('/articles/:articleId/like', passport.authenticate('jwt', {
   session: false
-}), async (req, res) => {
+}), (req, res) => {
   likeOrDislikeArticleController(req, res);
+});
+
+// Get reminders for current user
+router.get('/reminders', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
+  getRemindersController(req, res);
+});
+
+
+// Save reminder for current user to reminders collection, and reminderId to user's reminders array
+router.post('/reminders', passport.authenticate('jwt', {
+   session: false 
+}), (req, res) => {
+  saveReminderController(req, res);
 });
 
 module.exports = router;

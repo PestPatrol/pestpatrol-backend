@@ -4,7 +4,7 @@ const db = require('../../app/firestore');
 const userCollection = db.collection('users');
 
 // Create a new user
-const createUser = async (newUserData) => {
+async function createUser (newUserData) {
   try {
     await userCollection.doc(newUserData.userId).set(newUserData);
     return newUserData;
@@ -15,7 +15,7 @@ const createUser = async (newUserData) => {
 };
 
 // Get a user by ID
-const getUserById = async (userId) => {
+async function getUserById (userId) {
   try {
     const userDoc = await userCollection.doc(userId).get();
     if (userDoc.exists) {
@@ -29,7 +29,7 @@ const getUserById = async (userId) => {
   }
 };
 
-const getUserByEmail = async (email) => {
+async function getUserByEmail (email) {
   try {
     const querySnapshot = await userCollection.where('email', '==', email).get();
     const userDoc = querySnapshot.docs[0];
@@ -45,7 +45,7 @@ const getUserByEmail = async (email) => {
 };
 
 // Update a user by ID
-const updateUserById = async (userId, updatedUserData) => {
+async function updateUserById (userId, updatedUserData) {
   try {
     await userCollection.doc(userId).update(updatedUserData);
     return true;
@@ -56,7 +56,7 @@ const updateUserById = async (userId, updatedUserData) => {
 };
 
 // Delete a user by ID
-const deleteUserById = async (userId) => {
+async function deleteUserById (userId) {
   try {
     await userCollection.doc(userId).delete();
     return true;
@@ -66,10 +66,27 @@ const deleteUserById = async (userId) => {
   }
 };
 
+async function saveReminderIdByUserId(userId, reminderId){
+  try{
+    const userDoc = await userCollection.doc(userId).get();
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      userData.reminders.push(reminderId);
+      await userCollection.doc(userId).update({ reminders: userData.reminders });
+      return true;
+    } else {
+      throw new Error('User not found');
+    }
+  } catch (error){
+  }
+
+}
+
 module.exports = {
   createUser,
   getUserById,
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  saveReminderIdByUserId,
 };

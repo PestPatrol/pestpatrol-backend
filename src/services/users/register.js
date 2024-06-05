@@ -2,7 +2,7 @@ const User = require('../users/user');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-const registerService = async (req) => {
+async function registerService (req){
     try{
         const existingUser = await User.getUserByEmail(req.body.email);
 

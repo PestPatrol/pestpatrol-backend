@@ -25,11 +25,11 @@ router.post('/ping', (req, res) => {
     });
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', (req, res) => {
   registerController(req, res)
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', (req, res) => {
   loginController(req, res)
 });
 
