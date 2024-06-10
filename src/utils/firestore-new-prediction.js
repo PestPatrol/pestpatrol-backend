@@ -1,4 +1,3 @@
-const { log } = require("@tensorflow/tfjs-node");
 const db = require("../app/firestore");
 const crypto = require('crypto');
 
@@ -9,8 +8,7 @@ async function addNewPrediction(predictionData, leafImageUrl, userId) {
   predictionData = {
     ...predictionData,
     createdAt: new Date().toISOString(),
-    leafPictureLink: leafImageUrl,
-    reminders: []
+    leafPictureLink: leafImageUrl
   }
 
   // Add new document & data to 'predictions' collection
