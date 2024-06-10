@@ -1,10 +1,12 @@
 const express = require('express');
 const router = new express.Router();
 const passport = require('../configs/passport');
+
 const {
   getPredictionHistoryByUserIdController,
   predictController
 } = require('../controllers/prediction-controller');
+
 const {
   getArticlesController,
   getLikedArticlesController,
@@ -15,8 +17,10 @@ const {
 const {
   getRemindersController,
   getReminderHistoryController,
+  getReminderDetailController,
   saveReminderController,
-  deleteReminderController
+  deleteReminderController,
+  finishReminderController
 } = require('../controllers/reminder-controller');
 
 // Multer configuration
@@ -56,7 +60,7 @@ router.post('/predict',
   passport.authenticate('jwt', {
     session: false
   }),
-   (req, res) => {
+  (req, res) => {
     predictController(req, res);
   });
 
@@ -110,32 +114,46 @@ router.get('/reminders', passport.authenticate('jwt', {
   getRemindersController(req, res);
 });
 
-// TODO: Get reminders/schedule history
+// Finish a reminder
+router.get('/reminders/:reminderId/finish', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
+  finishReminderController(req, res);
+});
+
+// Get all reminder history
 router.get('/reminders/history', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
-  
+  getReminderHistoryController(req, res);
 });
 
 // Add new reminder
 router.post('/reminders', passport.authenticate('jwt', {
-  session: false 
+  session: false
 }), (req, res) => {
   saveReminderController(req, res);
 });
 
-// TODO: Delete reminders
+// Delete a reminder
 router.delete('/reminders/:reminderId', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
   deleteReminderController(req, res);
 });
 
-// TODO: Edit reminders
-router.post('/reminders/:reminderId/edit', passport.authenticate('jwt', {
+// Get reminder data/details
+router.get('/reminders/:reminderId', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
-  saveReminderController(req, res)
-})
+  getReminderDetailController(req, res);
+});
 
-module.exports = router;
+  // Edit a reminder
+  router.post('/reminders/:reminderId/edit', passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    saveReminderController(req, res)
+  })
+
+  module.exports = router;

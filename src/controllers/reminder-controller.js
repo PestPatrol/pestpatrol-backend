@@ -1,10 +1,13 @@
 const {
   getReminderHistoryByUserId
 } = require('../services/reminders/reminder-history');
+
 const {
+  getRemindersById,
   getRemindersByUserId,
   saveReminder,
-  deleteReminder
+  deleteReminder,
+  finishReminder
 } = require('../services/reminders/reminders');
 
 async function getRemindersController(req, res) {
@@ -42,13 +45,31 @@ async function getReminderHistoryController(req, res) {
   }
 }
 
+async function getReminderDetailController(req, res) {
+  try {
+    const reminderData = await getRemindersById(req.params.reminderId);
+    res.status(200)
+      .json({
+        success: true,
+        message: 'Reminder detail fetched successfully',
+        data: reminderData
+      });
+  } catch (error) {
+    res.status(500)
+      .json({
+        success: false,
+        message: 'Error when fetching reminder detail'
+      });
+  }
+}
+
 async function saveReminderController(req, res) {
   try {
     const reminderData = await saveReminder(req);
     res.status(201)
       .json({
         success: true,
-        message: 'Reminder created successfully',
+        message: 'Reminder created/edited successfully',
         data: reminderData
       });
   } catch(error) {
@@ -78,9 +99,30 @@ async function deleteReminderController(req, res) {
   }
 }
 
+async function finishReminderController(req, res) {
+  try {
+    const reminderData = await finishReminder(req);
+    res.status(200)
+      .json({
+        success: true,
+        message: 'Reminder finished successfully',
+        data: reminderData
+      });
+  } catch (error) {
+    console.error('Error finishing reminder: ', error);
+    res.status(500)
+      .json({
+        success: false,
+        message: 'Error when finishing reminder'
+      });
+  }
+}
+
 module.exports = {
   getRemindersController,
   getReminderHistoryController,
+  getReminderDetailController,
   saveReminderController,
-  deleteReminderController
+  deleteReminderController,
+  finishReminderController
 };

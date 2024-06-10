@@ -1,5 +1,6 @@
 const db = require('../../app/firestore');
 const remindersCollection = db.collection('reminders');
+
 const {
   getUserById,
   saveReminderIdByUserId,
@@ -54,12 +55,12 @@ async function saveReminder(req) {
 
   try {
     /*
-     * Check first if 'reminderId' is in request body
+     * Check first if 'reminderId' is in request parameters
 
      * If so, then it's "editing" a certain reminder
      * If not, then it's "creating" a new reminder
      */
-    let reminderId = req.body.reminderId;
+    let reminderId = req.params.reminderId;
     if (reminderId) {
       await remindersCollection.doc(reminderId).update(newReminderData);
     } else {
@@ -86,19 +87,37 @@ async function deleteReminder(req) {
     await remindersCollection.doc(reminderId).delete();
 
     const userId = req.user.userId;
-    let userData = await getUserById(userId);
+    const userData = await getUserById(userId);
     let reminderIdList = userData.reminders;
     reminderIdList = reminderIdList.filter(id => id !== reminderId);
 
-    userData = {
+    const updatedUserData = {
       ...userData,
       reminders: reminderIdList
     };
 
-    await updateUserById(userId, userData);
+    await updateUserById(userId, updatedUserData);
   } catch (error) {
     console.error('Error deleting reminder:', error);
     throw new Error('Failed to delete reminder from Firestore')
+  }
+}
+
+async function finishReminder(req) {
+  const reminderId = req.params.reminderId;
+  try {
+    const reminderDocRef = remindersCollection.doc(reminderId);
+    await reminderDocRef.update({ isActive: false });
+
+    
+    const reminderDoc = await reminderDocRef.get();
+    const reminderData = reminderDoc.data();
+    return {
+      reminderData
+    }
+  } catch (error) {
+    console.error('Error finishing reminder:', error);
+    throw new Error('Failed to finish reminder in Firestore');
   }
 }
 
@@ -106,5 +125,6 @@ module.exports = {
   getRemindersById,
   getRemindersByUserId,
   saveReminder,
-  deleteReminder
+  deleteReminder,
+  finishReminder
 };
