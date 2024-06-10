@@ -1,11 +1,11 @@
 const db = require('../../app/firestore');
 const { getUserById } = require('../users/user');
 
-const predictionCollection = db.collection('predictions');
+const predictionsCollection = db.collection('predictions');
 
 async function getPredictionHistoryById(predictionId) {
   try {
-    const predictionDoc = await predictionCollection.doc(predictionId).get();
+    const predictionDoc = await predictionsCollection.doc(predictionId).get();
     if (predictionDoc.empty) {
       return null;
     }
@@ -38,4 +38,4 @@ async function getPredictionHistoryByUserId(userId) {
   }
 }
 
-module.exports = getPredictionHistoryByUserId;
+module.exports = { getPredictionHistoryByUserId, getPredictionHistoryById, };
