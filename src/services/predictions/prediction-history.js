@@ -37,7 +37,23 @@ async function getPredictionHistoryByUserId(userId) {
   }
 }
 
+async function createPrediction(predictionData, imageUrl) {
+  try{
+    predictionData = {
+      ...predictionData,
+      createdAt: new Date().toISOString(),
+      leafPictureLink: imageUrl,
+    }
+    const docRef = await predictionsCollection.add(predictionData);
+    return docRef.id;
+  }catch(error){
+    console.error('Error adding new prediction:', error);
+    throw new Error('Failed to add new prediction');
+  }
+}
+
 module.exports = {
   getPredictionHistoryByUserId,
-  getPredictionHistoryById
+  getPredictionHistoryById,
+  createPrediction,
 };
