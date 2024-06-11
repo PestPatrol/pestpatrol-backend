@@ -19,23 +19,25 @@ async function getPredictionHistoryById(predictionId) {
 async function getPredictionHistoryByUserId(userId) {
   try {
     const user = await getUserById(userId);
+
     const predictionIdList = user.predictions;
+    if (!predictionIdList) return null;
+
     const predictionDocList = [];
 
     for (const predictionId of predictionIdList) {
       const predictionDoc = await getPredictionHistoryById(predictionId);
-      if (predictionDoc) {
-        predictionDocList.push(predictionDoc);
-      }
+      if (predictionDoc) predictionDocList.push(predictionDoc);
     }
-    if (predictionDocList.empty) {
-      return null;
-    }
+
     return predictionDocList;
   } catch (error) {
     console.error('Error getting prediction history by user id:', error);
-    throw new Error('Failed to get prediction history by user id from Firestore');
+    throw new Error('Failed to get user\'s prediction history');
   }
 }
 
-module.exports = { getPredictionHistoryByUserId, getPredictionHistoryById, };
+module.exports = {
+  getPredictionHistoryByUserId,
+  getPredictionHistoryById
+};

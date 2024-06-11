@@ -1,10 +1,12 @@
 const express = require('express');
 const router = new express.Router();
 const passport = require('../configs/passport');
+
 const {
   getPredictionHistoryByUserIdController,
   predictController
 } = require('../controllers/prediction-controller');
+
 const {
   getArticlesController,
   getLikedArticlesController,
@@ -12,17 +14,21 @@ const {
   getArticleDetailController
 } = require('../controllers/article-controller');
 
+const {
+  getRemindersController,
+  getReminderHistoryController,
+  getReminderDetailController,
+  saveReminderController,
+  deleteReminderController,
+  finishReminderController
+} = require('../controllers/reminder-controller');
+
 // Multer configuration
 const multer = require('multer');
 const fileStorageEngine = require('../configs/multer-storage');
 const upload = multer({
   storage: fileStorageEngine
 });
-
-const {
-  getRemindersController,
-  saveReminderController,
-} = require('../controllers/reminder-controller');
 
 // Protected route
 router.get('/protected',
@@ -54,7 +60,7 @@ router.post('/predict',
   passport.authenticate('jwt', {
     session: false
   }),
-   (req, res) => {
+  (req, res) => {
     predictController(req, res);
   });
 
@@ -101,19 +107,53 @@ router.post('/articles/:articleId/like', passport.authenticate('jwt', {
   likeOrDislikeArticleController(req, res);
 });
 
-// Get reminders for current user
+// Get active reminders for current user
 router.get('/reminders', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
   getRemindersController(req, res);
 });
 
+// Finish a reminder
+router.get('/reminders/:reminderId/finish', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
+  finishReminderController(req, res);
+});
 
-// Save reminder for current user to reminders collection, and reminderId to user's reminders array
+// Get all reminder history
+router.get('/reminders/history', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
+  getReminderHistoryController(req, res);
+});
+
+// Add new reminder
 router.post('/reminders', passport.authenticate('jwt', {
-   session: false 
+  session: false
 }), (req, res) => {
   saveReminderController(req, res);
 });
 
-module.exports = router;
+// Delete a reminder
+router.delete('/reminders/:reminderId', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
+  deleteReminderController(req, res);
+});
+
+// Get reminder data/details
+router.get('/reminders/:reminderId', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
+  getReminderDetailController(req, res);
+});
+
+  // Edit a reminder
+  router.post('/reminders/:reminderId/edit', passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    saveReminderController(req, res)
+  })
+
+  module.exports = router;
