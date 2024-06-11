@@ -1,22 +1,24 @@
-const { time } = require('@tensorflow/tfjs-node');
 const db = require('../../app/firestore');
 const remindersCollection = db.collection('reminders');
-const { getUserById, saveReminderIdByUserId} = require('../users/user');
 
-async function getRemindersById(reminderId){
-  
-  try{
+const {
+  getUserById,
+  saveReminderIdByUserId,
+  updateUserById
+} = require('../users/user');
+
+async function getRemindersById(reminderId) {
+  try {
     const remindersDoc = await remindersCollection.doc(reminderId).get()
-    if (remindersDoc.empty){
+    if (remindersDoc.empty) {
       return null;
-    } 
-    return remindersDoc.data();
-  } 
-  catch (error){
-      console.error('Error getting reminders:', error);
-      throw new Error('Failed to get reminders by id from Firestore');
     }
-
+    return remindersDoc.data();
+  }
+  catch (error) {
+    console.error('Error getting reminders:', error);
+    throw new Error('Failed to get reminders by id from Firestore');
+  }
 }
 
 async function getRemindersByUserId(userId) {
@@ -41,25 +43,88 @@ async function getRemindersByUserId(userId) {
   }
 }
 
-async function saveReminders(req) {
-    const newReminder = {
-      isActive: req.body.isActive,
-      repeatEvery: req.body.repeatEvery,
-      time: req.body.time,
-      title: req.body.title,
-      type: req.body.type,
+async function saveReminder(req) {
+  const newReminderData = {
+    isActive: req.body.isActive,
+    repeatEvery: req.body.repeatEvery,
+    time: req.body.time,
+    title: req.body.title,
+    activities: req.body.activities,
+  }
+  const userId = req.user.userId;
+
+  try {
+    /*
+     * Check first if 'reminderId' is in request parameters
+
+     * If so, then it's "editing" a certain reminder
+     * If not, then it's "creating" a new reminder
+     */
+    let reminderId = req.params.reminderId;
+    if (reminderId) {
+      await remindersCollection.doc(reminderId).update(newReminderData);
+    } else {
+      // "Creating" a new reminder
+      const reminderDoc = await remindersCollection.add(newReminderData);
+      reminderId = reminderDoc.id;
+      saveReminderIdByUserId(userId, reminderId);
     }
-    const userId = req.user.userId;
-    try{
-      const newReminderDocRef = await remindersCollection.add(newReminder);
-      const newReminderDocRefId = newReminderDocRef.id;
-      saveReminderIdByUserId(userId, newReminderDocRefId);
-      return newReminder;
-    } catch (error){
-      console.error('Error creating reminder:', error);
-      throw new Error('Failed to create reminder in Firestore');
-    }
+
+    return {
+      reminderId: reminderId,
+      ...newReminderData
+    };
+  } catch (error) {
+    console.error('Error creating reminder:', error);
+    throw new Error('Failed to create/edit reminder in Firestore');
+  }
 }
 
+async function deleteReminder(req) {
+  const reminderId = req.params.reminderId;
 
-module.exports = { getRemindersById, getRemindersByUserId, saveReminders };
+  try {
+    await remindersCollection.doc(reminderId).delete();
+
+    const userId = req.user.userId;
+    const userData = await getUserById(userId);
+    let reminderIdList = userData.reminders;
+    reminderIdList = reminderIdList.filter(id => id !== reminderId);
+
+    const updatedUserData = {
+      ...userData,
+      reminders: reminderIdList
+    };
+
+    await updateUserById(userId, updatedUserData);
+  } catch (error) {
+    console.error('Error deleting reminder:', error);
+    throw new Error('Failed to delete reminder from Firestore')
+  }
+}
+
+async function finishReminder(req) {
+  const reminderId = req.params.reminderId;
+  try {
+    const reminderDocRef = remindersCollection.doc(reminderId);
+    await reminderDocRef.update({ isActive: false });
+
+    
+    const reminderDoc = await reminderDocRef.get();
+    const reminderData = reminderDoc.data();
+    return {
+      reminderData
+    }
+  } catch (error) {
+    console.error('Error finishing reminder:', error);
+    throw new Error('Failed to finish reminder in Firestore');
+  }
+}
+
+module.exports = {
+  getRemindersById,
+  getRemindersByUserId,
+  saveReminder,
+  deleteReminder,
+  finishReminder
+};

@@ -4,7 +4,7 @@ const db = require('../../app/firestore');
 const userCollection = db.collection('users');
 
 // Create a new user
-async function createUser (newUserData) {
+async function createUser(newUserData) {
   try {
     await userCollection.doc(newUserData.userId).set(newUserData);
     return newUserData;
@@ -15,7 +15,7 @@ async function createUser (newUserData) {
 };
 
 // Get a user by ID
-async function getUserById (userId) {
+async function getUserById(userId) {
   try {
     const userDoc = await userCollection.doc(userId).get();
     if (userDoc.exists) {
@@ -29,7 +29,7 @@ async function getUserById (userId) {
   }
 };
 
-async function getUserByEmail (email) {
+async function getUserByEmail(email) {
   try {
     const querySnapshot = await userCollection.where('email', '==', email).get();
     const userDoc = querySnapshot.docs[0];
@@ -45,7 +45,7 @@ async function getUserByEmail (email) {
 };
 
 // Update a user by ID
-async function updateUserById (userId, updatedUserData) {
+async function updateUserById(userId, updatedUserData) {
   try {
     await userCollection.doc(userId).update(updatedUserData);
     return true;
@@ -56,7 +56,7 @@ async function updateUserById (userId, updatedUserData) {
 };
 
 // Delete a user by ID
-async function deleteUserById (userId) {
+async function deleteUserById(userId) {
   try {
     await userCollection.doc(userId).delete();
     return true;
@@ -78,8 +78,8 @@ async function saveReminderIdByUserId(userId, reminderId){
       throw new Error('User not found');
     }
   } catch (error){
+    throw new Error('Failed to add new reminder');
   }
-
 }
 
 module.exports = {

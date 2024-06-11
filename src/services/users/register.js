@@ -14,7 +14,9 @@ const registerService = async (req) => {
       fullName: req.body.fullName,
       favArticles: [],
       password: await bcrypt.hash(req.body.password, 10),
+      predictions: [],
       profpicLink: '',
+      reminders: [],
       userId: crypto.randomUUID()
     }
     return await User.createUser(newUser);

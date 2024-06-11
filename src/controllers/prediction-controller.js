@@ -1,5 +1,5 @@
 const predict = require('../services/predictions/predict');
-const getPredictionHistoryByUserId = require('../services/predictions/prediction-history');
+const { getPredictionHistoryById, getPredictionHistoryByUserId } = require('../services/predictions/prediction-history');
 const fs = require('fs');
 const tf = require('@tensorflow/tfjs-node');
 const addNewPrediction = require('../utils/firestore-new-prediction');
@@ -13,7 +13,6 @@ async function predictController(req, res) {
 
     const image = fs.readFileSync(imagePath);
 
-    // TODO: Import model from GCS (still troubling: 'ValueError: An InputLayer should be passed either a `batchInputShape` or an `inputShape`.')
     const modelDir = path.join(__dirname, '../../model/model.json');
     const url = tf.io.fileSystem(modelDir);
     console.log('Model loading...');
