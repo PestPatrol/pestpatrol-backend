@@ -8,11 +8,7 @@ const {
 } = require('../controllers/user-controller');
 
 // Multer configuration
-const multer = require('multer');
-const fileStorageEngine = require('../configs/multer-storage');
-const upload = multer({
-    storage: fileStorageEngine
-});
+const upload = require('../configs/multer-gcs');
 
 // Ping route
 router.get('/ping',

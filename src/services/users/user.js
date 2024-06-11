@@ -66,7 +66,7 @@ async function deleteUserById(userId) {
   }
 };
 
-async function saveReminderIdByUserId(userId, reminderId){
+async function addReminderIdByUserId(userId, reminderId){
   try{
     const userDoc = await userCollection.doc(userId).get();
     if (userDoc.exists) {
@@ -82,11 +82,32 @@ async function saveReminderIdByUserId(userId, reminderId){
   }
 }
 
+async function addPredictionIdByUserId(userId, predictionId){
+  try{
+    const userRef = userCollection.doc(userId);
+    const userDoc = await userRef.get();
+
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      const predictionList = userData.predictions || [];
+      predictionList.push(predictionId);
+      
+      await userRef.update({ predictions: predictionList });
+      return true;
+    } else {
+      throw new Error('User not found');
+    }
+  } catch (error){
+    throw new Error(error.message || 'Failed to add new prediction');
+  }
+}
+
 module.exports = {
   createUser,
   getUserById,
   getUserByEmail,
   updateUserById,
   deleteUserById,
-  saveReminderIdByUserId,
+  addReminderIdByUserId,
+  addPredictionIdByUserId
 };
