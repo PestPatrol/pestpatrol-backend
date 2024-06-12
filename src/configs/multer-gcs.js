@@ -1,14 +1,14 @@
 const multer = require('multer');
 const MulterGoogleCloudStorage = require('multer-cloud-storage').default;
 const { v4: uuidv4 } = require('uuid');
-
+const path = require('path');
 require('dotenv').config();
 
 const fileGcsEngine = multer({
   storage: new MulterGoogleCloudStorage({
     bucket: process.env.DATA_BUCKET,
     projectId: process.env.PROJECT_ID, 
-    keyFilename: process.env.SA_KEY_PATH,
+    keyFilename: path.join(__dirname, 'credentials.json'),
     destination: (req, file, cb) => {
       if (file.fieldname === 'image-predict') {
         cb(null, 'prediction-imgs');
