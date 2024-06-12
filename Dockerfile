@@ -10,7 +10,10 @@ RUN apt-get update && \
     python3 \
     make \
     gcc \ 
-    libc6-dev
+    libc6-dev \
+    gnupg
+
+RUN echo $SA_JSON > credentials.json
 
 RUN npm install
 
