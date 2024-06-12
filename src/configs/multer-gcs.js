@@ -8,7 +8,7 @@ const fileGcsEngine = multer({
   storage: new MulterGoogleCloudStorage({
     bucket: process.env.DATA_BUCKET,
     projectId: process.env.PROJECT_ID, 
-    keyFilename: path.join(__dirname, 'credentials.json'),
+    keyFilename: path.join(__dirname, '..', '..', 'credentials.json'),
     destination: (req, file, cb) => {
       if (file.fieldname === 'image-predict') {
         cb(null, 'prediction-imgs');
