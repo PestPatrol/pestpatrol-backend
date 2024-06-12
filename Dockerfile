@@ -1,26 +1,14 @@
 FROM node:20-buster-slim
 
+# Set working directory
 WORKDIR /app
 
+# Copy the application files into the container
 COPY . .
-
-RUN apt-get update && \ 
-    apt-get install -y build-essential \
-    wget \
-    python3 \
-    make \
-    gcc \ 
-    libc6-dev \
-    gnupg
-
-RUN echo "$SA_JSON" > credentials.json
 
 RUN npm install
 
-ENV PORT=3000
-
 EXPOSE 3000
-# Display debugging information for $SA_JSON and credentials.json
-CMD echo "DEBUG SA_JSON: $SA_JSON" && \
-    echo "DEBUG credentials.json: $(cat credentials.json)" && \
-    npm run start
+
+# Set the default command to execute after the container starts
+CMD ["sh", "-c", "echo \"$SA_JSON\" > credentials.json && npm run start"]
