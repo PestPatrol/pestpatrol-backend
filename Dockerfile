@@ -20,5 +20,7 @@ RUN npm install
 ENV PORT=3000
 
 EXPOSE 3000
-
-CMD ["npm", "run", "start"]
+# Display debugging information for $SA_JSON and credentials.json
+CMD echo "DEBUG SA_JSON: $SA_JSON" && \
+    echo "DEBUG credentials.json: $(cat credentials.json)" && \
+    npm run start
