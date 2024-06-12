@@ -22,7 +22,7 @@ async function getRemindersController(req, res) {
   } catch (error) {
     res.json({
       success: false,
-      message: 'Error when fetching reminders data'
+      message: 'Error when fetching reminders data: ' + error.message
     });
   }
 }
@@ -40,7 +40,7 @@ async function getReminderHistoryController(req, res) {
     res.status(500)
       .json({
         success: false,
-        message: 'Error when fetching reminder history'
+        message: 'Error when fetching reminder history: ' + error.message
       });
   }
 }
@@ -58,7 +58,7 @@ async function getReminderDetailController(req, res) {
     res.status(500)
       .json({
         success: false,
-        message: 'Error when fetching reminder detail'
+        message: 'Error when fetching reminder detail: ' + error.message
       });
   }
 }
@@ -76,7 +76,7 @@ async function saveReminderController(req, res) {
     res.status(500)
       .json({
       success: false,
-      message: 'Error when creating new reminder'
+      message: 'Error when creating new reminder: ' + error.message
     });
   }
 }
@@ -94,7 +94,7 @@ async function deleteReminderController(req, res) {
     res.status(500)
       .json({
         success: false,
-        message: 'Error when deleting reminder'
+        message: 'Error when deleting reminder: ' + error.message
       });
   }
 }
@@ -113,7 +113,7 @@ async function finishReminderController(req, res) {
     res.status(500)
       .json({
         success: false,
-        message: 'Error when finishing reminder'
+        message: 'Error when finishing reminder: ' + error.message
       });
   }
 }

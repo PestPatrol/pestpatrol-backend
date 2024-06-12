@@ -2,7 +2,7 @@ const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
-const user = require('../services/users/user');
+const User = require('../services/users/user');
 
 require('dotenv').config();
 
@@ -16,7 +16,7 @@ const jwtOpts = {
 passport.use(
   new JWTStrategy(jwtOpts, (jwt_payload, done) => {
     //jwt_payload is the decoded JWT payload that contains id or userId
-    user.getUserById(jwt_payload.id)
+    User.getUserById(jwt_payload.id)
       .then(user => {
         if (user) {
           done(null, user);
@@ -37,8 +37,9 @@ const googleOpts = {
 
 // Add middleware when user logs in with Google OAuth
 passport.use(
-  new GoogleStrategy(googleOpts, (accessToken, refreshToken, profile, done) => { //profile is the user profile returned from Google
-    user.getUserById(profile.id)
+  //profile is the user profile returned from Google
+  new GoogleStrategy(googleOpts, (accessToken, refreshToken, profile, done) => { 
+    User.getUserById(profile.id)
       .then(user => {
         if (user) {
           // If user already registered, add user from db to req (req.user), then generate token in user-controller.js in the googleOauth function and send token in response
@@ -47,15 +48,17 @@ passport.use(
           // If user not registered, create new user, add user to req (req.user), then generate token in user-controller.js in the googleOauth function and send token in response
           const newUser = {
             email: profile.emails[0].value,
-            favArticles: [],
             fullName: profile.displayName,
+            favArticles: [],
             password: '',
+            predictions: [],
             profpicLink: profile.photos[0].value,
+            reminders: [],
             userId: profile.id
           };
 
           // Create new user and return the created user
-          user.createUser(newUser)
+          User.createUser(newUser)
             .then(user => {
               // Add new user to req (req.user), then generate token in user-controller.js in the googleOauth function and send token in response
               done(null, user);

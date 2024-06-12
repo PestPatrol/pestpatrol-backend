@@ -19,7 +19,7 @@ async function likeOrDislikeArticle(articleId, userId) {
     data.favArticles.push(articleId);
   }
 
-  await usersCollection.doc(userId).set(data);
+  await usersCollection.doc(userId).update({ ...data });
 
   return {
     ...data
