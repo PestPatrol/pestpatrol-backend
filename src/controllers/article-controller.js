@@ -46,7 +46,7 @@ async function getArticleDetailController(req, res) {
 }
 
 async function likeOrDislikeArticleController(req, res) {
-  const articleId = req.body.articleId;
+  const articleId = (req.body.articleId) ? req.body.articleId : req.params.articleId;
   const userId = req.user.userId;
 
   try {
@@ -55,7 +55,7 @@ async function likeOrDislikeArticleController(req, res) {
     return res.status(200)
       .json({
         success: true,
-        message: 'Article liked successfully',
+        message: 'Article liked/disliked successfully',
         data: {
           articleId: articleId,
           title: articleData.title,
