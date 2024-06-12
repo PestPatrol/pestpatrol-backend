@@ -13,7 +13,7 @@ RUN apt-get update && \
     libc6-dev \
     gnupg
 
-RUN echo $SA_JSON > credentials.json
+RUN echo "$SA_JSON" > credentials.json
 
 RUN npm install
 
