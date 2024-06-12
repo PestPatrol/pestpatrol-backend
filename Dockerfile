@@ -11,4 +11,4 @@ RUN npm install
 EXPOSE 3000
 
 # Set the default command to execute after the container starts
-CMD ["sh", "-c", "echo \"$SA_JSON\" > credentials.json && npm run start"]
+CMD ["sh", "-c", "echo debug && npm run start"]
