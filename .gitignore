@@ -140,5 +140,3 @@ credentials.json
 *.ipynb
 
 # Docker-related
-Dockerfile
-.dockerignore
