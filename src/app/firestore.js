@@ -1,4 +1,5 @@
 const { Firestore } = require('@google-cloud/firestore');
+const path = require('path');
 require('dotenv').config();
 
 const db = new Firestore({
