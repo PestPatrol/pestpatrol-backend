@@ -5,8 +5,6 @@ WORKDIR /app
 
 # Copy the application files into the container
 COPY . .
-RUN apt-get update && \
-    apt-get install -y python3
 
 RUN npm install
 
