@@ -2,7 +2,6 @@ const multer = require('multer');
 const MulterGoogleCloudStorage = require('multer-cloud-storage').default;
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
-
 require('dotenv').config();
 
 const fileGcsEngine = multer({
