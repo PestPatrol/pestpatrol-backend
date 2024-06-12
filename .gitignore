@@ -138,3 +138,7 @@ credentials.json
 
 # IPYNB (raw model)
 *.ipynb
+
+# Docker-related
+Dockerfile
+.dockerignore
