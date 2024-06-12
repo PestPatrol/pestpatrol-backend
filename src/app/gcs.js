@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const gcs = new Storage({
     projectId: process.env.PROJECT_ID,
-    keyFilename: path.join(__dirname, 'credentials.json'),
+    keyFilename: path.join(__dirname, '..', '..', 'credentials.json'),
 })
 async function getObject(objectPath) {
     try {
