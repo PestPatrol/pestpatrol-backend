@@ -1,5 +1,4 @@
 const db = require('../../app/firestore');
-const ResponseError = require('../../errors/response-error');
 
 async function getArticleDetail(articleId) {
   const document = await db.collection('articles').doc(articleId).get();
@@ -10,7 +9,7 @@ async function getArticleDetail(articleId) {
     ...data,
     articleId: articleId
   };
-  else throw new ResponseError(404, 'Article not found!');
+  else throw Error(404, 'Article not found!');
 }
 
 module.exports = getArticleDetail;

@@ -4,7 +4,7 @@ const passport = require('../configs/passport');
 
 const {
   getPredictionHistoryByUserIdController,
-  predictController
+  predictionController
 } = require('../controllers/prediction-controller');
 
 const {
@@ -24,11 +24,7 @@ const {
 } = require('../controllers/reminder-controller');
 
 // Multer configuration
-const multer = require('multer');
-const fileStorageEngine = require('../configs/multer-storage');
-const upload = multer({
-  storage: fileStorageEngine
-});
+const upload = require('../configs/multer-gcs');
 
 // Protected route
 router.get('/protected',
@@ -56,12 +52,12 @@ router.get('/protected',
 
 // Predict
 router.post('/predict',
-  upload.single('image'),
+  upload.single('image-predict'),
   passport.authenticate('jwt', {
     session: false
   }),
   (req, res) => {
-    predictController(req, res);
+    predictionController(req, res);
   });
 
 // Get predictions history of a certain user

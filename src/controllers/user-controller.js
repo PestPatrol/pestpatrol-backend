@@ -44,7 +44,7 @@ async function googleOauthController (req, res) {
   if (!req.user) {
     return res.status(401).json({
       success: false,
-      message: 'Failed to authenticate user using Google OAuth:'
+      message: 'Failed to authenticate user using Google OAuth'
     });
   }
 

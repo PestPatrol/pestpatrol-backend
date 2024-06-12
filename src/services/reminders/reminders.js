@@ -3,7 +3,7 @@ const remindersCollection = db.collection('reminders');
 
 const {
   getUserById,
-  saveReminderIdByUserId,
+  addReminderIdByUserId,
   updateUserById
 } = require('../users/user');
 
@@ -67,7 +67,7 @@ async function saveReminder(req) {
       // "Creating" a new reminder
       const reminderDoc = await remindersCollection.add(newReminderData);
       reminderId = reminderDoc.id;
-      saveReminderIdByUserId(userId, reminderId);
+      addReminderIdByUserId(userId, reminderId);
     }
 
     return {
