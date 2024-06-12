@@ -5,10 +5,12 @@ WORKDIR /app
 
 # Copy the application files into the container
 COPY . .
+RUN apt-get update && \
+    apt-get install -y python3
 
 RUN npm install
 
 EXPOSE 3000
 
 # Set the default command to execute after the container starts
-CMD ["sh", "-c", "echo \"$SA_JSON\" > credentials.json && cat credentials.json && npm run start"]
+CMD ["sh", "-c", "echo \"$SA_JSON\" && echo \"$SA_JSON\" > credentials.json && cat credentials.json | python -m json.tool && ls -la && cat credentials.json && npm run start"]
