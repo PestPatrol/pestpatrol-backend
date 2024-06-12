@@ -6,10 +6,7 @@ WORKDIR /app
 # Copy the application files into the container
 COPY . .
 
-
-RUN apt update && apt install -y python3
-
-RUN npm install
+RUN apt update && apt install -y python3 && npm install
 
 EXPOSE 3000
 
