@@ -55,6 +55,13 @@ router.get('/protected',
     });
   });
 
+// TODO: Reset password
+// router.put('/reset-password/:resetToken', 
+//   (req, res) => {
+//   // TODO: Handle reset password logic here (same or different with public-api ?)
+
+// });
+
 // Predict
 router.post('/predict',
   upload.single('image-predict'),
