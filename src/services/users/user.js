@@ -47,7 +47,7 @@ async function getUserByEmail(email) {
 // Update a user by ID
 async function updateUserById(userId, updatedUserData) {
   try {
-    await userCollection.doc(userId).update(updatedUserData);
+    await userCollection.doc(userId).update({ ...updatedUserData });
     return true;
   } catch (error) {
     console.error('Error updating user:', error);

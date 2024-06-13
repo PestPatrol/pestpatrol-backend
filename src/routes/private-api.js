@@ -55,6 +55,13 @@ router.get('/protected',
     });
   });
 
+// TODO: Reset password
+router.put('/reset-password/:resetToken', 
+  (req, res) => {
+  // TODO: Handle reset password logic here
+
+});
+
 // Predict
 router.post('/predict',
   upload.single('image-predict'),

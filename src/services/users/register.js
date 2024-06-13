@@ -14,6 +14,8 @@ const registerService = async (req) => {
       fullName: req.body.fullName,
       favArticles: [],
       password: await bcrypt.hash(req.body.password, 10),
+      passwordResetToken: '',
+      passwordResetTokenExpiry: '',
       predictions: [],
       profpicLink: '',
       reminders: [],
