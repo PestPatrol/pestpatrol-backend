@@ -91,7 +91,7 @@ router.get('/articles/liked',
   });
 
 // Like/dislike article from 'P-Blog' page
-router.post('/articles/like',
+router.put('/articles/like',
   passport.authenticate('jwt', {
     session: false
   }), (req, res) => {
@@ -107,7 +107,7 @@ router.get('/articles/:articleId',
   });
 
 // Like/dislike article from 'article details' page
-router.post('/articles/:articleId/like',
+router.put('/articles/:articleId/like',
   passport.authenticate('jwt', {
     session: false
   }), (req, res) => {
@@ -163,7 +163,7 @@ router.get('/reminders/:reminderId',
   });
 
 // Edit a reminder
-router.post('/reminders/:reminderId/edit',
+router.put('/reminders/:reminderId/edit',
   passport.authenticate('jwt', {
     session: false
   }), (req, res) => {
@@ -179,7 +179,7 @@ router.get('/profile',
   });
 
 // Edit profile
-router.post('/profile/edit',
+router.put('/profile/edit',
   upload.single('image-profile'),
   passport.authenticate('jwt', {
     session: false
