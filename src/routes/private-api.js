@@ -23,6 +23,11 @@ const {
   finishReminderController
 } = require('../controllers/reminder-controller');
 
+const {
+  getProfileController,
+  editProfileController
+} = require('../controllers/profile-controller');
+
 // Multer configuration
 const upload = require('../configs/multer-gcs');
 
@@ -61,95 +66,125 @@ router.post('/predict',
   });
 
 // Get predictions history of a certain user
-router.get('/predict/history', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  getPredictionHistoryByUserIdController(req, res);
-});
+router.get('/predict/history',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    getPredictionHistoryByUserIdController(req, res);
+  });
 
 // Get list of all articles
 // (optional query param: by category)
-router.get('/articles', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  getArticlesController(req, res);
-});
-
-// Get favorite (liked) articles
-router.get('/articles/liked', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  getLikedArticlesController(req, res);
-});
-
-// Like/dislike article from 'P-Blog' page
-router.post('/articles/like', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  likeOrDislikeArticleController(req, res);
-});
-
-// Get article detail by articleId
-router.get('/articles/:articleId', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  getArticleDetailController(req, res);
-});
-
-// Like/dislike article from 'article details' page
-router.post('/articles/:articleId/like', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  likeOrDislikeArticleController(req, res);
-});
-
-// Get active reminders for current user
-router.get('/reminders', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  getRemindersController(req, res);
-});
-
-// Finish a reminder
-router.get('/reminders/:reminderId/finish', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  finishReminderController(req, res);
-});
-
-// Get all reminder history
-router.get('/reminders/history', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  getReminderHistoryController(req, res);
-});
-
-// Add new reminder
-router.post('/reminders', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  saveReminderController(req, res);
-});
-
-// Delete a reminder
-router.delete('/reminders/:reminderId', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  deleteReminderController(req, res);
-});
-
-// Get reminder data/details
-router.get('/reminders/:reminderId', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  getReminderDetailController(req, res);
-});
-
-  // Edit a reminder
-  router.post('/reminders/:reminderId/edit', passport.authenticate('jwt', {
+router.get('/articles',
+  passport.authenticate('jwt', {
     session: false
   }), (req, res) => {
-    saveReminderController(req, res)
-  })
+    getArticlesController(req, res);
+  });
 
-  module.exports = router;
+// Get favorite (liked) articles
+router.get('/articles/liked',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    getLikedArticlesController(req, res);
+  });
+
+// Like/dislike article from 'P-Blog' page
+router.post('/articles/like',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    likeOrDislikeArticleController(req, res);
+  });
+
+// Get article detail by articleId
+router.get('/articles/:articleId',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    getArticleDetailController(req, res);
+  });
+
+// Like/dislike article from 'article details' page
+router.post('/articles/:articleId/like',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    likeOrDislikeArticleController(req, res);
+  });
+
+// Get active reminders for current user
+router.get('/reminders',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    getRemindersController(req, res);
+  });
+
+// Finish a reminder
+router.get('/reminders/:reminderId/finish',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    finishReminderController(req, res);
+  });
+
+// Get all reminder history
+router.get('/reminders/history',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    getReminderHistoryController(req, res);
+  });
+
+// Add new reminder
+router.post('/reminders',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    saveReminderController(req, res);
+  });
+
+// Delete a reminder
+router.delete('/reminders/:reminderId',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    deleteReminderController(req, res);
+  });
+
+// Get reminder data/details
+router.get('/reminders/:reminderId',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    getReminderDetailController(req, res);
+  });
+
+// Edit a reminder
+router.post('/reminders/:reminderId/edit',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    saveReminderController(req, res);
+  });
+
+// Profile
+router.get('/profile',
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    getProfileController(req, res);
+  });
+
+// Edit profile
+router.post('/profile/edit',
+  upload.single('image-profile'),
+  passport.authenticate('jwt', {
+    session: false
+  }), (req, res) => {
+    editProfileController(req, res);
+  });
+
+module.exports = router;
