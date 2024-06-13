@@ -9,17 +9,18 @@ async function getArticlesController(req, res) {
   try {
     const articles = await getArticles(category);
 
-    return res.status(200)
+    res.status(200)
       .json({
         success: true,
         message: 'Articles fetched successfully',
         data: articles
       });
   } catch (error) {
-    return res.status(error.statusCode)
+    console.log(error);
+    res.status(error.statusCode || 500)
       .json({
         success: false,
-        message: error.message
+        message: error.message || 'Error when fetching articles'
       });
   }
 }
@@ -30,17 +31,17 @@ async function getArticleDetailController(req, res) {
   try {
     const articleDetailData = await getArticleDetail(articleId);
 
-    return res.status(200)
+    res.status(200)
       .json({
         success: true,
         message: 'Article fetched successfully',
         data: articleDetailData
       });
   } catch (error) {
-    return res.status(error.statusCode)
+    res.status(error.statusCode || 500)
       .json({
         success: false,
-        message: error.message
+        message: error.message || 'Error when fetching article detail'
       });
   }
 }
@@ -52,7 +53,7 @@ async function likeOrDislikeArticleController(req, res) {
   try {
     const articleData = await likeOrDislikeArticle(articleId, userId);
 
-    return res.status(200)
+    res.status(200)
       .json({
         success: true,
         message: 'Article liked/disliked successfully',
@@ -64,10 +65,10 @@ async function likeOrDislikeArticleController(req, res) {
         }
       });
   } catch (error) {
-    return res
+    res.status(error.statusCode || 500)
       .json({
         success: false,
-        message: error.message
+        message: error.message || 'Error when liking/disliking article'
       });
   }
 }
@@ -86,17 +87,17 @@ async function getLikedArticlesController(req, res) {
   try {
     const articles = await getLikedArticles(userId);
 
-    return res.status(200)
+    res.status(200)
       .json({
         success: true,
         message: 'Articles fetched successfully',
         data: articles
       });
   } catch (error) {
-    return res
+    res.status(error.statusCode || 500)
       .json({
         success: false,
-        message: error.message
+        message: error.message || 'Error when fetching liked articles'
       });
   }
 }
