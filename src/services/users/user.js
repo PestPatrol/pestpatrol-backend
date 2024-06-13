@@ -12,7 +12,7 @@ async function createUser(newUserData) {
     console.error('Error creating user:', error);
     throw new Error('Failed to create user in Firestore');
   }
-};
+}
 
 // Get a user by ID
 async function getUserById(userId) {
@@ -27,22 +27,21 @@ async function getUserById(userId) {
     console.error('Error getting user:', error);
     throw new Error('Failed to get user by id from Firestore');
   }
-};
+}
 
-async function getUserByEmail(email) {
+// Get user by specific field
+async function getUserByField(fieldName, value) {
   try {
-    const querySnapshot = await userCollection.where('email', '==', email).get();
+    const querySnapshot = await userCollection.where(fieldName, '==', value).get();
     const userDoc = querySnapshot.docs[0];
-    if (userDoc) {
-      return userDoc.data();
-    } else {
-      return null;
-    }
+
+    if (userDoc) return userDoc.data();
+    else return null;
   } catch (error) {
     console.error('Error getting user:', error);
-    throw new Error('Failed to get user by email from Firestore');
+    throw new Error(`Failed to get user by specified field from Firestore`);
   }
-};
+}
 
 // Update a user by ID
 async function updateUserById(userId, updatedUserData) {
@@ -53,7 +52,7 @@ async function updateUserById(userId, updatedUserData) {
     console.error('Error updating user:', error);
     throw new Error('Failed to update user');
   }
-};
+}
 
 // Delete a user by ID
 async function deleteUserById(userId) {
@@ -64,9 +63,9 @@ async function deleteUserById(userId) {
     console.error('Error deleting user:', error);
     throw new Error('Failed to delete user');
   }
-};
+}
 
-async function addReminderIdByUserId(userId, reminderId){
+async function addReminderIdByUserId(userId, reminderId) {
   try{
     const userDoc = await userCollection.doc(userId).get();
     if (userDoc.exists) {
@@ -82,7 +81,7 @@ async function addReminderIdByUserId(userId, reminderId){
   }
 }
 
-async function addPredictionIdByUserId(userId, predictionId){
+async function addPredictionIdByUserId(userId, predictionId) {
   try{
     const userRef = userCollection.doc(userId);
     const userDoc = await userRef.get();
@@ -105,7 +104,7 @@ async function addPredictionIdByUserId(userId, predictionId){
 module.exports = {
   createUser,
   getUserById,
-  getUserByEmail,
+  getUserByField,
   updateUserById,
   deleteUserById,
   addReminderIdByUserId,

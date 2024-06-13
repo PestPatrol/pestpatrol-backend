@@ -5,7 +5,8 @@ const {
   loginController,
   registerController,
   googleOauthController,
-  forgotPasswordController
+  forgotPasswordController,
+  resetPasswordController
 } = require('../controllers/user-controller');
 
 // Multer configuration
@@ -56,24 +57,15 @@ router.post('/login',
 
 // Forgot password
 router.post('/forgot-password',
-  async (req, res) => {
-  /*
-   * Handle the forgot password logic here.
-  
-   * Flow:
-   * 
-   * 1. Get user from posted/input email
-   * 2. Generate a random reset token --> save to Firestore
-   * 3. Send the token to user's email
-   */
-  await forgotPasswordController(req, res);
+  (req, res) => {
+  forgotPasswordController(req, res);
 });
 
 // TODO: Reset password
 router.put('/reset-password/:resetToken',
   (req, res) => {
   // TODO: Handle reset password logic here
-
+  resetPasswordController(req, res);
 });
 
 // Login with Google

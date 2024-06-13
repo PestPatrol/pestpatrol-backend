@@ -1,20 +1,20 @@
-const User = require('../users/user');
+const user = require('../users/user');
 const bcrypt = require('bcrypt');
 const generateToken = require('../../utils/generate-token');
 
 async function loginService (req){
   try {
-    const user = await User.getUserByEmail(req.body.email);
-    if (!user) {
+    const userData = await user.getUserByField('email', req.body.email);
+    if (!userData) {
       throw new Error('User not found');
     }
 
-    const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+    const passwordMatch = await bcrypt.compare(req.body.password, userData.password);
     if (!passwordMatch) {
       throw new Error('Password incorrect');
     }
 
-    const token = generateToken(user.userId);
+    const token = generateToken(userData.userId);
     return token;
 
   } catch (error) {

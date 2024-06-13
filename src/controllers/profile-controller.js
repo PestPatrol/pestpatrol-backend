@@ -37,7 +37,7 @@ async function editProfileController(req, res) {
 		const userId = req.user.userId;
 
 		const imagePath = req.file.path;
-    const imageUrl = await getObjectPublicUrl(imagePath);
+		const imageUrl = await getObjectPublicUrl(imagePath);
 		console.log('imageUrl is ', imageUrl);
 
 		const oldUserData = {

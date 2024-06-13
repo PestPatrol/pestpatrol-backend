@@ -1,7 +1,11 @@
 const loginService = require('../services/users/login');
-const { forgotPassword } = require('../services/users/password');
 const registerService = require('../services/users/register');
 const generateToken = require('../utils/generate-token');
+
+const {
+  forgotPassword,
+  resetPassword
+} = require('../services/users/password');
 
 async function loginController(req, res) {
   try {
@@ -84,9 +88,28 @@ async function forgotPasswordController(req, res) {
   }
 }
 
+async function resetPasswordController(req, res) {
+  try {
+    // TODO: Call service function for resetting password
+    await resetPassword(req);
+    res.status(200)
+      .json({
+        success: true,
+        message: 'Password reset successfully'
+      });
+  } catch (error) {
+    res.status(error.statusCode || 500)
+      .json({
+        success: false,
+        message: error.message || 'Failed in resetting password'
+      });
+  }
+}
+
 module.exports = {
   loginController,
   registerController,
   googleOauthController,
-  forgotPasswordController
+  forgotPasswordController,
+  resetPasswordController
 };

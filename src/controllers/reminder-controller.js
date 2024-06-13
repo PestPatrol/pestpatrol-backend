@@ -66,7 +66,7 @@ async function getReminderDetailController(req, res) {
 async function saveReminderController(req, res) {
   try {
     const reminderData = await saveReminder(req);
-    res.status(201)
+    res.status(200)
       .json({
         success: true,
         message: 'Reminder created/edited successfully',

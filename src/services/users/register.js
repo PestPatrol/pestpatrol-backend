@@ -1,10 +1,10 @@
-const User = require('../users/user');
+const user = require('../users/user');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
 const registerService = async (req) => {
   try {
-    const existingUser = await User.getUserByEmail(req.body.email);
+    const existingUser = await user.getUserByField('email', req.body.email);
 
     if (existingUser) {
       throw new Error('User already registered');
@@ -14,6 +14,7 @@ const registerService = async (req) => {
       fullName: req.body.fullName,
       favArticles: [],
       password: await bcrypt.hash(req.body.password, 10),
+      passwordChangedAt: Date.now(),
       passwordResetToken: '',
       passwordResetTokenExpiry: '',
       predictions: [],
@@ -21,7 +22,7 @@ const registerService = async (req) => {
       reminders: [],
       userId: crypto.randomUUID()
     }
-    return await User.createUser(newUser);
+    return await user.createUser(newUser);
   } catch (error) {
     console.error('Error registering user: ', error);
     throw error
