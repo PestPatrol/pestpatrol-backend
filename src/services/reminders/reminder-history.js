@@ -1,4 +1,5 @@
 const db = require('../../app/firestore');
+const ResponseError = require('../../errors/response-error');
 const remindersCollection = db.collection('reminders');
 const { getUserById } = require('../users/user');
 
@@ -6,13 +7,14 @@ async function getReminderHistoryById(reminderId) {
 	try {
 		const reminderDoc = await remindersCollection.doc(reminderId).get();
 		const reminderData = reminderDoc.data();
+		if (!reminderData) throw new ResponseError('Specific reminder history not found', 404);
 
 		return {
 			reminderId: reminderId,
 			...reminderData
 		};
 	} catch (error) {
-		throw new Error('Failed getting reminder history data');
+		throw error;
 	}
 }
 
