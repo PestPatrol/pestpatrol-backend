@@ -47,7 +47,7 @@ async function getReminderHistoryController(req, res) {
 
 async function getReminderDetailController(req, res) {
   try {
-    const reminderData = await getRemindersById(req.params.reminderId);
+    const reminderData = await getRemindersById(req.user.userId, req.params.reminderId);
     res.status(200)
       .json({
         success: true,
@@ -55,7 +55,7 @@ async function getReminderDetailController(req, res) {
         data: reminderData
       });
   } catch (error) {
-    res.status(500)
+    res.status(error.statusCode || 500)
       .json({
         success: false,
         message: 'Error when fetching reminder detail: ' + error.message
@@ -66,6 +66,8 @@ async function getReminderDetailController(req, res) {
 async function saveReminderController(req, res) {
   try {
     const reminderData = await saveReminder(req);
+    console.log('Request method: ', req.method);
+    const statusCode = (req.method === 'POST') ? 201 : 200;
     res.status(201)
       .json({
         success: true,
@@ -73,10 +75,10 @@ async function saveReminderController(req, res) {
         data: reminderData
       });
   } catch(error) {
-    res.status(500)
+    res.status(error.statusCode || 500)
       .json({
       success: false,
-      message: 'Error when creating new reminder: ' + error.message
+      message: 'Error when creating/editing new reminder: ' + error.message
     });
   }
 }
@@ -91,7 +93,7 @@ async function deleteReminderController(req, res) {
       });
   } catch (error) {
     console.error('Error deleting reminder: ', error);
-    res.status(500)
+    res.status(error.statusCode || 500)
       .json({
         success: false,
         message: 'Error when deleting reminder: ' + error.message
@@ -110,7 +112,7 @@ async function finishReminderController(req, res) {
       });
   } catch (error) {
     console.error('Error finishing reminder: ', error);
-    res.status(500)
+    res.status(error.statusCode || 500)
       .json({
         success: false,
         message: 'Error when finishing reminder: ' + error.message

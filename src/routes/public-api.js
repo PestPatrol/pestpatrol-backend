@@ -4,7 +4,9 @@ const router = new express.Router();
 const {
   loginController,
   registerController,
-  googleOauthController
+  googleOauthController,
+  forgotPasswordController,
+  resetPasswordController
 } = require('../controllers/user-controller');
 
 // Multer configuration
@@ -48,8 +50,22 @@ router.post('/register',
     registerController(req, res)
   });
 
-router.post('/login', (req, res) => {
+router.post('/login',
+  (req, res) => {
   loginController(req, res)
+});
+
+// Forgot password
+router.post('/forgot-password',
+  (req, res) => {
+  forgotPasswordController(req, res);
+});
+
+// TODO: Reset password
+router.put('/reset-password/:resetToken',
+  (req, res) => {
+  // TODO: Handle reset password logic here
+  resetPasswordController(req, res);
 });
 
 // Login with Google
