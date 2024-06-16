@@ -12,7 +12,7 @@ async function loginController(req, res) {
     const token = await loginService(req);
     res.status(200).json({
       success: true,
-      messsage: 'User logged in successfully',
+      message: 'User logged in successfully',
       data: {
         token: token
       }
