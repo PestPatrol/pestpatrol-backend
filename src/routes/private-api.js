@@ -28,6 +28,10 @@ const {
   editProfileController
 } = require('../controllers/profile-controller');
 
+const {
+  chatbotController
+} = require('../controllers/chatbot-controllers');
+
 // Multer configuration
 const upload = require('../configs/multer-gcs');
 
@@ -192,6 +196,13 @@ router.put('/profile/edit',
     session: false
   }), (req, res) => {
     editProfileController(req, res);
+  });
+
+router.post('/chat',
+  passport.authenticate('jwt', {
+     session: false
+  }), (req, res) => {
+    chatbotController(req, res);
   });
 
 module.exports = router;
