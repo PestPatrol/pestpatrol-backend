@@ -3,6 +3,7 @@ const { getObject, getObjectPublicUrl } = require('../../app/gcs');
 const { createPrediction } = require('./prediction-history');
 const { addPredictionIdByUserId } = require('../users/user');
 const  { getModel }  = require('../../app/model');
+const db = require('../../app/firestore');
 
 async function predict(model, image) {
   try {
@@ -20,7 +21,11 @@ async function predict(model, image) {
     const classResult = tf.argMax(prediction, 1).dataSync()[0];
     const disease = classes[classResult];
 
-    return { disease, confidenceScore };
+    // Fetch suggestions from Firestore
+    const suggestionsDoc = await db.collection('suggestions').doc(disease).get();
+    const suggestionsData = suggestionsDoc.data();
+
+    return { disease, confidenceScore, suggestions: suggestionsData };
 
   } catch (error) {
     console.log(error);
