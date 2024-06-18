@@ -7,7 +7,11 @@ const userCollection = db.collection('users');
 async function createUser(newUserData) {
   try {
     await userCollection.doc(newUserData.userId).set(newUserData);
-    return newUserData;
+    return {
+      userId: newUserData.userId,
+      email: newUserData.email,
+      fullName: newUserData.fullName
+    };
   } catch (error) {
     console.error('Error creating user:', error);
     throw new Error('Failed to create user in Firestore');

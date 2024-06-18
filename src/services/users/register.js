@@ -9,7 +9,7 @@ const registerService = async (req) => {
     if (existingUser) {
       throw new Error('User already registered');
     }
-    const newUser = {
+    const newUserData = {
       email: req.body.email,
       fullName: req.body.fullName,
       favArticles: [],
@@ -22,7 +22,9 @@ const registerService = async (req) => {
       reminders: [],
       userId: crypto.randomUUID()
     }
-    return await user.createUser(newUser);
+
+    const newUserProfile = await user.createUser(newUserData);
+    return newUserProfile;
   } catch (error) {
     console.error('Error registering user: ', error);
     throw error
