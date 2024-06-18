@@ -200,7 +200,7 @@ router.put('/profile/edit',
 
 router.post('/chat',
   passport.authenticate('jwt', {
-     session: false
+    session: false
   }), (req, res) => {
     chatbotController(req, res);
   });
