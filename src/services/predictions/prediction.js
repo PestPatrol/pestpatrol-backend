@@ -21,16 +21,20 @@ async function predict(model, image) {
     const classResult = tf.argMax(prediction, 1).dataSync()[0];
     const disease = classes[classResult];
 
-    // Fetch suggestions from Firestore
-    const suggestionsDoc = await db.collection('suggestions').doc(disease).get();
-    const suggestionsData = suggestionsDoc.data();
-
-    return { disease, confidenceScore, suggestions: suggestionsData };
+    return { disease, confidenceScore };
 
   } catch (error) {
     console.log(error);
     throw error;
   }
+}
+
+async function getSuggestions(disease) {
+  // Fetch suggestions from Firestore
+  const suggestionsDoc = await db.collection('suggestions').doc(disease).get();
+  const suggestionsData = suggestionsDoc.data();
+
+  return suggestionsData;
 }
 
 async function predictionService(req){
@@ -41,12 +45,16 @@ async function predictionService(req){
     const model = await getModel();
 
     const predictionData = await predict(model, image);
+    const suggestions = await getSuggestions(predictionData.disease);
 
     const newPredictionId = await createPrediction(predictionData, imageUrl);
 
     await addPredictionIdByUserId(req.user.userId, newPredictionId);
 
-    return predictionData;
+    return {
+      ...predictionData,
+      ...suggestions
+    };
 
   } catch (error) { 
     console.log(error);
