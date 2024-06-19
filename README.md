@@ -56,8 +56,7 @@
 - **Continuous Deployment**:  Integrated with Cloud Run Continuous Deployment on the Main branch for automated deployment.
 
 ## Cloud Architecture
-![Cloud Diagram](https://drive.google.com/uc?id=1PEiLCksKldkRncmjxmfAeJ3OrAhxmCTO)
-
+![Cloud Diagram](https://drive.google.com/uc?id=1dx5rGEDnOYwJpwGFeaYASGwm5n880w2_)
 ## Getting Started
 
 ### Prerequisites
