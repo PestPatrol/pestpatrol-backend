@@ -8,9 +8,8 @@ const bcrypt = require('bcrypt');
 async function forgotPassword(req) {
 	try {
 		const userData = await getUserByField('email', req.body.email);
-		const userId = userData.userId;
-
 		if (!userData) throw new ResponseError('Could not find user with given email', 404);
+		const userId = userData.userId;
 
 		const {
 			resetToken,
