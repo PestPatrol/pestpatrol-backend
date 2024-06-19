@@ -1,7 +1,6 @@
 ![Banner](https://drive.google.com/uc?id=13v4gLZKivlCDC3zjHgKQizo09hUNWZfL)
 
 
-
 # Pestpatrol Backend
 
 **PestPatrol** is an Android application designed for early detection of rice crop diseases using advanced machine learning models. The backend, developed using Express.js and auto-deployed to Google Cloud Run, includes 33 REST API endpoints facilitating communication between the app and cloud services.
@@ -17,9 +16,8 @@
     - [Installation](#installation)
   - [Running the Application](#running-the-application)
   - [Project Structure](#project-structure)
-  - [License](#license)
 - [API Reference](#api-reference)
-      - [Base URL](#base-url)
+  - [Base URL](#base-url)
   - [(+) `POST` Register](#-post-register)
   - [(+) `POST` Login](#-post-login)
   - [(+) `POST` Forgot Password](#-post-forgot-password)
@@ -42,6 +40,8 @@
   - [(-) `GET` Profile Data](#--get-profile-data)
   - [(-) `PUT` Edit Profile Data](#--put-edit-profile-data)
   - [(-) `POST` Send Chat to Chatbot](#--post-send-chat-to-chatbot)
+- [Postman](#postman)
+- [License](#license)
 
 ## Introduction
 
@@ -54,6 +54,9 @@
 - **Cloud Data Management**: Utilizes robust storage solutions on Google Cloud Platform (GCP), including Firestore for structured data and Cloud Storage for object data.
 - **Cloud Run**:Server is hosted on a serverless container-based infrastructure, ensuring scalability and reliability.
 - **Continuous Deployment**:  Integrated with Cloud Run Continuous Deployment on the Main branch for automated deployment.
+
+## Cloud Architecture
+![Cloud Diagram](https://link)
 
 ## Getting Started
 
@@ -80,13 +83,17 @@ Ensure you have the following installed on your local development machine:
     ```bash
     npm install
     ```
+4. Add your Google Service Account Credentials in the root project directory:
+    ```bash
+    credentials.json
+    ```
 
 ## Running the Application 
 Run application in Development mode :
 ```bash
 npm run start:dev
 ```
-The application will be accessible at http://localhost:3000.
+The application will be accessible at `http://localhost:3000`.
 
 ## Project Structure
 ```bash
@@ -117,13 +124,8 @@ pestpatrol-backend
     ├── utils
     └── validations
 ```
-## License
 
-This Project is licensed under the MIT License - see the [LICENSE](https://github.com/PestPatrol/pestpatrol-backend/blob/main/LICENSE) file for details.
-
-Thank you for using FreshGrade! If you have any questions or need further assistance, please open an issue in this repository.
-
-# API Reference
+## API Reference
 
 The **private endpoints (-)** needs a JWT `token` in every authorization header. This `token` contains database information about the current `user`, such as `email` and `userId` (could be referred by `req.user.userId`). Meanwhile, the **public endpoints (+)** do not need such a way.
 
@@ -149,7 +151,7 @@ Each endpoint's **success response** varies, meanwhile the **failed/error respon
 ```
 `{{PORT}}` will refer `PORT` variable in `.env`. 
 
-## (+) `POST` Register
+### (+) `POST` Register
 ```http
   POST /register
 ```
@@ -177,7 +179,7 @@ Example **success response:**
     }
   }
 ```
-## (+) `POST` Login
+### (+) `POST` Login
 ```http
   POST /login
 ```
@@ -200,7 +202,7 @@ Example **success response:**
 }
 ```
 
-## (+) `POST` Forgot Password
+### (+) `POST` Forgot Password
 ```http
   POST /forgot-password
 ```
@@ -224,7 +226,7 @@ Example **success response:**
 
 **Note:** make sure to fill the correct values for `GMAIL_USER` & `GMAIL_APP_PASSWORD` in the `.env` file to successfully send the email.
 
-## (+) `PUT` Reset Password
+### (+) `PUT` Reset Password
 ```http
   PUT /reset-password/{{resetToken}}
 ```
@@ -244,7 +246,7 @@ Example **success response:**
   }
 ```
 
-## (-) `POST` Predict
+### (-) `POST` Predict
 ```http
   POST /predict
 ```
@@ -292,7 +294,7 @@ Example **success respomse:**
   }
 ```
 
-## (-) `GET` All Prediction History
+### (-) `GET` All Prediction History
 ```http
   GET /predict/history
 ```
@@ -324,7 +326,7 @@ Example response if there's **no predictions at all:**
   }
 ```
 
-## (-) `GET` All Articles/Blogs
+### (-) `GET` All Articles/Blogs
 ```http
   GET /articles
 ```
@@ -373,7 +375,7 @@ Example response if there's **no articles at all:**
   }
 ```
 
-## (-) `GET` All Articles by Category
+### (-) `GET` All Articles by Category
 ```http
   GET /articles?category={{num}}
 ```
@@ -381,7 +383,7 @@ where `{{num}}` represents the categories available (`1` for **"News"** and `2` 
 
 Attempts to fetch all articles with given category. Success response structure is **the same as "Get All Articles/Blogs"**
 
-## (-) `GET` Article Detail by `articleId`
+### (-) `GET` Article Detail by `articleId`
 ```http
   GET /articles/{{articleId}}
 ```
@@ -408,7 +410,7 @@ Example **success response:**
   }
 ```
 
-## (-) `PUT` Like/Unlike Article/Blog (from 'P-Blog' List Page)
+### (-) `PUT` Like/Unlike Article/Blog (from 'P-Blog' List Page)
 ```http
   PUT /articles/like
 ```
@@ -432,14 +434,14 @@ Example **success response:**
   }
 ```
 
-## (-) `PUT` Like/Unlike Article/Blog (from Article/BLog Details Page)
+### (-) `PUT` Like/Unlike Article/Blog (from Article/BLog Details Page)
 ```http
   PUT /articles/{{articleId}}/like
 ```
 
 Attempts to add the specified article/blog `{{articleId}}` to favorites. Example **request body & success response** is the same as above "Like/Unlike Article/Blog (from 'P-Blog' List Page)".
 
-## (-) `GET` Liked/Favorite Articles/Blogs
+### (-) `GET` Liked/Favorite Articles/Blogs
 ```http
   GET /articles/liked?userId={{userId}}
 ```
@@ -448,7 +450,7 @@ Attempts to fetch all the favorite articles for the user specified with `{{userI
 
 Example **success response** is the same as "GET All Articles/Blogs" request.
 
-## (-) `POST` Create a New Reminder
+### (-) `POST` Create a New Reminder
 ```http
   POST /reminders
 ```
@@ -476,7 +478,7 @@ Example **success response:**
   }
 ```
 
-## (-) `GET` All Active Reminders
+### (-) `GET` All Active Reminders
 ```http
   GET /reminders
 ```
@@ -505,7 +507,7 @@ Example **success response:**
 
 If there's no reminder created yet, then `data` will contain an empty array `[]`.
 
-## (-) `GET` Reminder Detail by `reminderId`
+### (-) `GET` Reminder Detail by `reminderId`
 ```http
   GET /reminders/{{reminderId}}
 ```
@@ -514,14 +516,14 @@ Attempts to fetch the reminder details for a certain `reminderId`
 
 Example **success response structrue** is the same as above "GET All Active Reminders", but `data` will only contain an object `{}` with reminder properties & values.
 
-## (-) `PUT` Edit a Reminder
+### (-) `PUT` Edit a Reminder
 ```http
   PUT /reminders/{{reminderId}}/edit
 ```
 
 Attemps to edit a certain `reminderId` data with the new data specified in the **same request body** as "POST Create a New Reminder" request.
 
-## (-) `GET` Finish a Reminder
+### (-) `GET` Finish a Reminder
 ```http
   GET /reminders/{{reminderId}}/finish
 ```
@@ -530,7 +532,7 @@ Attempts to finish a certain reminder, specified by `{{reminderId}}`.
 
 **Success response structure** is the same as "GET Reminder Detail", but `isActive` property will have `false` value.
 
-## (-) `GET` Reminder History
+### (-) `GET` Reminder History
 ```http
   GET /reminders/history
 ```
@@ -539,7 +541,7 @@ Attempts to fetch all the finished reminders for a certain user.
 
 Example **success response structure** is the same as "GET All Active Reminders", except the `isActive` properties will all have `false` values.
 
-## (-) `DELETE` Delete a Reminder
+### (-) `DELETE` Delete a Reminder
 ```http
   DELETE /reminders/{{reminderId}}
 ```
@@ -554,7 +556,7 @@ Example **success response:**
   }
 ```
 
-## (-) `GET` Profile Data
+### (-) `GET` Profile Data
 ```http
   GET /profile
 ```
@@ -575,7 +577,7 @@ Example **success response:**
   }
 ```
 
-## (-) `PUT` Edit Profile Data
+### (-) `PUT` Edit Profile Data
 ```http
   PUT /profile/edit
 ```
@@ -595,7 +597,7 @@ Example **success response:**
   }
 ```
 
-## (-) `POST` Send Chat to Chatbot
+### (-) `POST` Send Chat to Chatbot
 ```http
   POST /chat
 ```
@@ -617,3 +619,15 @@ Example **response body structure:**
     }
   }
 ```
+## Postman
+
+You can use the following Postman collection to practice with the back-end API. Click the button below to open the collection in Postman.
+| Collection | Postman Link |
+|:---:|:---:|
+| Backend API collection | [![Run in Postman](https://run.pstmn.io/button.svg)](https://grey-capsule-622712.postman.co/workspace/PestPatrol-CC~33d81cd3-bb89-4c6d-94a2-da3237752d01/collection/30701935-b2c9ecd8-ff36-4309-bd4f-d891cd14a453?action=share&creator=30949384&active-environment=30701935-e2e33401-1eb6-4177-88b4-b72d1047e066)
+
+## License
+
+This Project is licensed under the MIT License - see the [LICENSE](https://github.com/PestPatrol/pestpatrol-backend/blob/main/LICENSE) file for details.
+
+Thank you for using FreshGrade! If you have any questions or need further assistance, please open an issue in this repository.
