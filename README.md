@@ -4,7 +4,7 @@
 
 # Pestpatrol Backend
 
-**Pestpatrol** is an Android application designed for early detection of rice crop diseases using advanced machine learning models. The backend, developed using Express.js and auto-deployed to Google Cloud Run, includes 33 REST API endpoints facilitating communication between the app and cloud services.
+**PestPatrol** is an Android application designed for early detection of rice crop diseases using advanced machine learning models. The backend, developed using Express.js and auto-deployed to Google Cloud Run, includes 33 REST API endpoints facilitating communication between the app and cloud services.
 
 ## Table of Contents
 
@@ -19,6 +19,30 @@
   - [API Documentation](#api-documentation)
   - [Project Structure](#project-structure)
   - [License](#license)
+- [API Reference](#api-reference)
+      - [Base URL](#base-url)
+  - [(+) `POST` Register](#-post-register)
+  - [(+) `POST` Login](#-post-login)
+  - [(+) `POST` Forgot Password](#-post-forgot-password)
+  - [(+) `PUT` Reset Password](#-put-reset-password)
+  - [(-) `POST` Predict](#--post-predict)
+  - [(-) `GET` All Prediction History](#--get-all-prediction-history)
+  - [(-) `GET` All Articles/Blogs](#--get-all-articlesblogs)
+  - [`GET` All Articles by Category](#get-all-articles-by-category)
+  - [`GET` Article Detail by `articleId`](#get-article-detail-by-articleid)
+  - [`PUT` Like/Unlike Article/Blog (from 'P-Blog' List Page)](#put-likeunlike-articleblog-from-p-blog-list-page)
+  - [`PUT` Like/Unlike Article/Blog (from Article/BLog Details Page)](#put-likeunlike-articleblog-from-articleblog-details-page)
+  - [`GET` Liked/Favorite Articles/Blogs](#get-likedfavorite-articlesblogs)
+  - [`POST` Create a New Reminder](#post-create-a-new-reminder)
+  - [`GET` All Active Reminders](#get-all-active-reminders)
+  - [`GET` Reminder Detail by `reminderId`](#get-reminder-detail-by-reminderid)
+  - [`PUT` Edit a Reminder](#put-edit-a-reminder)
+  - [`GET` Finish a Reminder](#get-finish-a-reminder)
+  - [`GET` Reminder History](#get-reminder-history)
+  - [`DELETE` Delete a Reminder](#delete-delete-a-reminder)
+  - [`GET` Profile Data](#get-profile-data)
+  - [`PUT` Edit Profile Data](#put-edit-profile-data)
+  - [`POST` Send Chat to Chatbot](#post-send-chat-to-chatbot)
 
 ## Introduction
 
@@ -59,7 +83,7 @@ Ensure you have the following installed on your local development machine:
     ```
 4. Seed the firestore :
     ```bash
-    gcloud ....
+    ./seed.sh
     ```
 
 ## Running the Application 
