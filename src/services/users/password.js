@@ -54,7 +54,7 @@ async function forgotPassword(req) {
 		};
 	} catch (error) {
 		console.log(error);
-		throw new ResponseError('Error generating reset token', 500);
+		throw error || new ResponseError('Error generating reset token', 500);
 	}
 }
 
