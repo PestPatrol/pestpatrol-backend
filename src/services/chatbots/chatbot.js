@@ -11,7 +11,7 @@ async function chatbotService(req) {
   try{
     const { message } = req.body;
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENAI_API_KEY);   
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'tunedModels/pestpatrol-aq4pa5hsyvo7' });
     const result = await model.generateContent(message);
     const responseText = result.response.candidates[0].content.parts[0].text;
     return preprocessMessage(responseText);
