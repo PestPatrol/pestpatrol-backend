@@ -5,7 +5,8 @@ const {
 
 const {
 	getUserById,
-	updateUserById
+	updateUserById,
+	getUserByField
 } = require('../services/users/user');
 
 async function getProfileController(req, res) {
@@ -36,23 +37,40 @@ async function editProfileController(req, res) {
 	try {
 		const userId = req.user.userId;
 
-		const imagePath = req.file.path;
-		const imageUrl = await getObjectPublicUrl(imagePath);
-		console.log('imageUrl is ', imageUrl);
+		const receivedImage = (req.file) ? true : false;
+		
+		let imagePath, imageUrl;
+		if (receivedImage) {
+			imagePath = req.file.path;
+			imageUrl = await getObjectPublicUrl(imagePath);
+		}
 
 		const oldUserData = {
 			...await getUserById(userId)
 		};
 		const oldProfpicUrl = oldUserData.profpicLink;
-		console.log('oldProfpicUrl is ', oldProfpicUrl);
 
 		const updatedUserData = {
 			...req.body,
-			profpicLink: imageUrl
+			profpicLink: (receivedImage) ? imageUrl : (oldUserData.profpicLink || '')
 		};
 
+		// If received 'email', check if it's already taken
+		if (updatedUserData.email) {
+			const existingUser = await getUserByField('email', updatedUserData.email);
+			if (existingUser && existingUser.userId !== userId) {
+				(receivedImage) && await deleteObject(imageUrl);
+
+				return res.status(400)
+					.json({
+						success: false,
+						message: 'Email is already taken'
+					});
+			}
+		}
+
 		const status = await updateUserById(userId, updatedUserData);
-		await deleteObject(oldProfpicUrl);
+		(receivedImage && oldProfpicUrl) && await deleteObject(oldProfpicUrl);
 
 		res.status(200)
 			.json({
@@ -60,6 +78,7 @@ async function editProfileController(req, res) {
 				message: 'Profile edited successfully'
 			});
 	} catch (error) {
+		console.log(error);
 		res.status(500)
 			.json({
 				success: false,
