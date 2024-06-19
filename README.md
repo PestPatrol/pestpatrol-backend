@@ -28,21 +28,21 @@
   - [(-) `POST` Predict](#--post-predict)
   - [(-) `GET` All Prediction History](#--get-all-prediction-history)
   - [(-) `GET` All Articles/Blogs](#--get-all-articlesblogs)
-  - [`GET` All Articles by Category](#get-all-articles-by-category)
-  - [`GET` Article Detail by `articleId`](#get-article-detail-by-articleid)
-  - [`PUT` Like/Unlike Article/Blog (from 'P-Blog' List Page)](#put-likeunlike-articleblog-from-p-blog-list-page)
-  - [`PUT` Like/Unlike Article/Blog (from Article/BLog Details Page)](#put-likeunlike-articleblog-from-articleblog-details-page)
-  - [`GET` Liked/Favorite Articles/Blogs](#get-likedfavorite-articlesblogs)
-  - [`POST` Create a New Reminder](#post-create-a-new-reminder)
-  - [`GET` All Active Reminders](#get-all-active-reminders)
-  - [`GET` Reminder Detail by `reminderId`](#get-reminder-detail-by-reminderid)
-  - [`PUT` Edit a Reminder](#put-edit-a-reminder)
-  - [`GET` Finish a Reminder](#get-finish-a-reminder)
-  - [`GET` Reminder History](#get-reminder-history)
-  - [`DELETE` Delete a Reminder](#delete-delete-a-reminder)
-  - [`GET` Profile Data](#get-profile-data)
-  - [`PUT` Edit Profile Data](#put-edit-profile-data)
-  - [`POST` Send Chat to Chatbot](#post-send-chat-to-chatbot)
+  - [(-) `GET` All Articles by Category](#--get-all-articles-by-category)
+  - [(-) `GET` Article Detail by `articleId`](#--get-article-detail-by-articleid)
+  - [(-) `PUT` Like/Unlike Article/Blog (from 'P-Blog' List Page)](#--put-likeunlike-articleblog-from-p-blog-list-page)
+  - [(-) `PUT` Like/Unlike Article/Blog (from Article/BLog Details Page)](#--put-likeunlike-articleblog-from-articleblog-details-page)
+  - [(-) `GET` Liked/Favorite Articles/Blogs](#--get-likedfavorite-articlesblogs)
+  - [(-) `POST` Create a New Reminder](#--post-create-a-new-reminder)
+  - [(-) `GET` All Active Reminders](#--get-all-active-reminders)
+  - [(-) `GET` Reminder Detail by `reminderId`](#--get-reminder-detail-by-reminderid)
+  - [(-) `PUT` Edit a Reminder](#--put-edit-a-reminder)
+  - [(-) `GET` Finish a Reminder](#--get-finish-a-reminder)
+  - [(-) `GET` Reminder History](#--get-reminder-history)
+  - [(-) `DELETE` Delete a Reminder](#--delete-delete-a-reminder)
+  - [(-) `GET` Profile Data](#--get-profile-data)
+  - [(-) `PUT` Edit Profile Data](#--put-edit-profile-data)
+  - [(-) `POST` Send Chat to Chatbot](#--post-send-chat-to-chatbot)
 
 ## Introduction
 
@@ -380,7 +380,7 @@ Example response if there's **no articles at all:**
   }
 ```
 
-## `GET` All Articles by Category
+## (-) `GET` All Articles by Category
 ```http
   GET /articles?category={{num}}
 ```
@@ -388,7 +388,7 @@ where `{{num}}` represents the categories available (`1` for **"News"** and `2` 
 
 Attempts to fetch all articles with given category. Success response structure is **the same as "Get All Articles/Blogs"**
 
-## `GET` Article Detail by `articleId`
+## (-) `GET` Article Detail by `articleId`
 ```http
   GET /articles/{{articleId}}
 ```
@@ -415,7 +415,7 @@ Example **success response:**
   }
 ```
 
-## `PUT` Like/Unlike Article/Blog (from 'P-Blog' List Page)
+## (-) `PUT` Like/Unlike Article/Blog (from 'P-Blog' List Page)
 ```http
   PUT /articles/like
 ```
@@ -439,14 +439,14 @@ Example **success response:**
   }
 ```
 
-## `PUT` Like/Unlike Article/Blog (from Article/BLog Details Page)
+## (-) `PUT` Like/Unlike Article/Blog (from Article/BLog Details Page)
 ```http
   PUT /articles/{{articleId}}/like
 ```
 
 Attempts to add the specified article/blog `{{articleId}}` to favorites. Example **request body & success response** is the same as above "Like/Unlike Article/Blog (from 'P-Blog' List Page)".
 
-## `GET` Liked/Favorite Articles/Blogs
+## (-) `GET` Liked/Favorite Articles/Blogs
 ```http
   GET /articles/liked?userId={{userId}}
 ```
@@ -455,7 +455,7 @@ Attempts to fetch all the favorite articles for the user specified with `{{userI
 
 Example **success response** is the same as "GET All Articles/Blogs" request.
 
-## `POST` Create a New Reminder
+## (-) `POST` Create a New Reminder
 ```http
   POST /reminders
 ```
@@ -483,7 +483,7 @@ Example **success response:**
   }
 ```
 
-## `GET` All Active Reminders
+## (-) `GET` All Active Reminders
 ```http
   GET /reminders
 ```
@@ -512,7 +512,7 @@ Example **success response:**
 
 If there's no reminder created yet, then `data` will contain an empty array `[]`.
 
-## `GET` Reminder Detail by `reminderId`
+## (-) `GET` Reminder Detail by `reminderId`
 ```http
   GET /reminders/{{reminderId}}
 ```
@@ -521,14 +521,14 @@ Attempts to fetch the reminder details for a certain `reminderId`
 
 Example **success response structrue** is the same as above "GET All Active Reminders", but `data` will only contain an object `{}` with reminder properties & values.
 
-## `PUT` Edit a Reminder
+## (-) `PUT` Edit a Reminder
 ```http
   PUT /reminders/{{reminderId}}/edit
 ```
 
 Attemps to edit a certain `reminderId` data with the new data specified in the **same request body** as "POST Create a New Reminder" request.
 
-## `GET` Finish a Reminder
+## (-) `GET` Finish a Reminder
 ```http
   GET /reminders/{{reminderId}}/finish
 ```
@@ -537,7 +537,7 @@ Attempts to finish a certain reminder, specified by `{{reminderId}}`.
 
 **Success response structure** is the same as "GET Reminder Detail", but `isActive` property will have `false` value.
 
-## `GET` Reminder History
+## (-) `GET` Reminder History
 ```http
   GET /reminders/history
 ```
@@ -546,7 +546,7 @@ Attempts to fetch all the finished reminders for a certain user.
 
 Example **success response structure** is the same as "GET All Active Reminders", except the `isActive` properties will all have `false` values.
 
-## `DELETE` Delete a Reminder
+## (-) `DELETE` Delete a Reminder
 ```http
   DELETE /reminders/{{reminderId}}
 ```
@@ -561,7 +561,7 @@ Example **success response:**
   }
 ```
 
-## `GET` Profile Data
+## (-) `GET` Profile Data
 ```http
   GET /profile
 ```
@@ -582,7 +582,7 @@ Example **success response:**
   }
 ```
 
-## `PUT` Edit Profile Data
+## (-) `PUT` Edit Profile Data
 ```http
   PUT /profile/edit
 ```
@@ -602,7 +602,7 @@ Example **success response:**
   }
 ```
 
-## `POST` Send Chat to Chatbot
+## (-) `POST` Send Chat to Chatbot
 ```http
   POST /chat
 ```
