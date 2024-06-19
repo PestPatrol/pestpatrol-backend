@@ -244,7 +244,7 @@ Attempts to do a password change for the user with the specified `{{resetToken}}
   }
 ```
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Password reset successfully"
@@ -262,7 +262,7 @@ Attempts to make a disease prediction from the image specified in `multipart/for
 | `image-predict` | `image` |
 
 Example **success respomse:**
-```
+```http
   {
     "success": true,
     "message": "Prediction success",
@@ -307,7 +307,7 @@ Example **success respomse:**
 Attempts to fetch all predictions done for the user.
 
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Prediction history fetched successfully",
@@ -323,7 +323,7 @@ Example **success response:**
 ```
 
 Example response if there's **no predictions at all:**
-```
+```http
   {
     "success": true,
     "message": "Prediction history fetched successfully",
@@ -339,7 +339,7 @@ Example response if there's **no predictions at all:**
 Attempts to fetch all articles/blogs available.
 
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Articles fetched successfully",
@@ -372,7 +372,7 @@ Example **success response:**
 ```
 
 Example response if there's **no articles at all:**
-```
+```http
   {
     "success": true,
     "message": "Articles fetched successfully",
@@ -395,7 +395,7 @@ Attempts to fetch all articles with given category. Success response structure i
 Attempts to fetch a(n) article/blog details by its ID.
 
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Articles fetched successfully",
@@ -421,7 +421,7 @@ Example **success response:**
 ```
 
 Attempts to add the specified article/blog to favorites. Example **request body:**
-```
+```http
   {
     "articleId": "hjAV4...",
     "userId": "0j8aLW..."
@@ -429,7 +429,7 @@ Attempts to add the specified article/blog to favorites. Example **request body:
 ```
 
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Article liked/disliked successfully",
@@ -461,7 +461,7 @@ Example **success response** is the same as "GET All Articles/Blogs" request.
 ```
 
 Attempts to create a new reminder schedule from the specified **request body:**
-```
+```http
   {
     "title": "Sample Reminder",
     "activities": ["Water", "Fertilize"],
@@ -472,7 +472,7 @@ Attempts to create a new reminder schedule from the specified **request body:**
 ```
 
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Reminder created/edited successfully",
@@ -491,7 +491,7 @@ Example **success response:**
 Attempts to fetch all the active reminders of a user.
 
 Example **success response:**
-```
+```http
 {
   "success": true,
   "message": "Reminders fetched successsfully",
@@ -554,7 +554,7 @@ Example **success response structure** is the same as "GET All Active Reminders"
 Attempts to delete a certain reminder by its `{{reminderId}}`.
 
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Reminder deleted successfully"
@@ -569,7 +569,7 @@ Example **success response:**
 Attempts to fetch the user's profile data.
 
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Profile fetched successfully",
@@ -595,7 +595,7 @@ Attempts to edit the user's profile data with the specified data in `multipart/f
 |     `email`     | `String` |
 
 Example **success response:**
-```
+```http
   {
     "success": true,
     "message": "Profile edited successfully"
@@ -608,14 +608,14 @@ Example **success response:**
 ```
 
 Attempts to send a chat request to Chatbot's API. Example **request body:**
-```
+```http
   {
     "message": "How to create a new reminder in this app?"
   }
 ```
 
 Example **response body structure:**
-```
+```http
   {
     "success": true,
     "message": "Success get response from chatbot",
