@@ -16,7 +16,6 @@
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
   - [Running the Application](#running-the-application)
-  - [API Documentation](#api-documentation)
   - [Project Structure](#project-structure)
   - [License](#license)
 - [API Reference](#api-reference)
@@ -81,10 +80,6 @@ Ensure you have the following installed on your local development machine:
     ```bash
     npm install
     ```
-4. Seed the firestore :
-    ```bash
-    ./seed.sh
-    ```
 
 ## Running the Application 
 Run application in Development mode :
@@ -92,8 +87,6 @@ Run application in Development mode :
 npm run start:dev
 ```
 The application will be accessible at http://localhost:3000.
-
-## API Documentation
 
 ## Project Structure
 ```bash
