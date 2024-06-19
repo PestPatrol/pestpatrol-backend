@@ -4,7 +4,7 @@
 
 # Pestpatrol Backend
 
-**Pestpatrol** is an Android application designed for early detection of rice crop diseases using advanced machine learning models. The backend, developed using Express.js and auto-deployed to Google Cloud Run, includes 33 REST API endpoints facilitating communication between the app and cloud services.
+**PestPatrol** is an Android application designed for early detection of rice crop diseases using advanced machine learning models. The backend, developed using Express.js and auto-deployed to Google Cloud Run, includes 33 REST API endpoints facilitating communication between the app and cloud services.
 
 ## Table of Contents
 
@@ -59,7 +59,7 @@ Ensure you have the following installed on your local development machine:
     ```
 4. Seed the firestore :
     ```bash
-    gcloud ....
+    ./seed.sh
     ```
 
 ## Running the Application 
@@ -104,4 +104,4 @@ pestpatrol-backend
 
 This Project is licensed under the MIT License - see the [LICENSE](https://github.com/PestPatrol/pestpatrol-backend/blob/main/LICENSE) file for details.
 
-Thank you for using FreshGrade! If you have any questions or need further assistance, please open an issue in this repository.
+Thank you for using PestPatrol! If you have any questions or need further assistance, please open an issue in this repository.
