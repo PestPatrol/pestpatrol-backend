@@ -620,7 +620,7 @@ Example **response body structure:**
 ```
 ## Postman
 
-You can use the following Postman collection to practice with the back-end API. Click the button below to open the collection in Postman.
+You can use the following Postman collection to practice with our Backend REST API. Click the button below to open the collection in Postman.
 | Collection | Postman Link |
 |:---:|:---:|
 | PestPatrol API Test | [![Run in Postman](https://run.pstmn.io/button.svg)](https://grey-capsule-622712.postman.co/workspace/PestPatrol-CC~33d81cd3-bb89-4c6d-94a2-da3237752d01/collection/30701935-b2c9ecd8-ff36-4309-bd4f-d891cd14a453?action=share&creator=30949384&active-environment=30701935-e2e33401-1eb6-4177-88b4-b72d1047e066)
@@ -629,4 +629,4 @@ You can use the following Postman collection to practice with the back-end API. 
 
 This Project is licensed under the MIT License - see the [LICENSE](https://github.com/PestPatrol/pestpatrol-backend/blob/main/LICENSE) file for details.
 
-Thank you for using FreshGrade! If you have any questions or need further assistance, please open an issue in this repository.
+Thank you for using PestPatrol! If you have any questions or need further assistance, please open an issue in this repository.
