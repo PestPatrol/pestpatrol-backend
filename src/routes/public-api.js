@@ -1,6 +1,7 @@
 const express = require('express');
 const auth = require('../configs/passport');
 const router = new express.Router();
+const path = require('path');
 const {
   loginController,
   registerController,
@@ -11,6 +12,12 @@ const {
 
 // Multer configuration
 const upload = require('../configs/multer-gcs');
+
+// Default route
+router.get('/',
+  (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'html/index.html'));
+  });
 
 // Ping route
 router.get('/ping',
@@ -52,21 +59,21 @@ router.post('/register',
 
 router.post('/login',
   (req, res) => {
-  loginController(req, res)
-});
+    loginController(req, res)
+  });
 
 // Forgot password
 router.post('/forgot-password',
   (req, res) => {
-  forgotPasswordController(req, res);
-});
+    forgotPasswordController(req, res);
+  });
 
 // TODO: Reset password
 router.put('/reset-password/:resetToken',
   (req, res) => {
-  // TODO: Handle reset password logic here
-  resetPasswordController(req, res);
-});
+    // TODO: Handle reset password logic here
+    resetPasswordController(req, res);
+  });
 
 // Login with Google
 router.get('/auth/google',
